@@ -59,15 +59,25 @@
             border: 1px solid #333;
         }
         .roulette-container h3 { margin-top: 0; color: #f39c12; }
+        
+        /* Блок-обертка колеса */
         .wheel-box {
             width: 240px;
             height: 240px;
             margin: 0 auto 15px auto;
             position: relative;
+        }
+        
+        /* Крутящийся круг */
+        #wheel {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             border: 4px solid #fff;
             box-shadow: 0 0 15px rgba(255,255,255,0.2);
             background: conic-gradient(#ff4757 0% 16.6%, #111 16.6% 33.3%, #ffa502 33.3% 50%, #fff 50% 66.6%, #1e90ff 66.6% 83.3%, #2ed573 83.3% 100%);
+            box-sizing: border-box;
+            display: block;
         }
         .wheel-arrow {
             position: absolute;
@@ -88,6 +98,7 @@
             background: #fff;
             border-radius: 50%;
             box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            z-index: 5;
         }
         .wheel-legend {
             display: grid;
@@ -115,6 +126,7 @@
         #c { font-size: 14px; color: #1dd1a1; margin: 15px 0 5px 0; font-weight: bold; }
         #jackpot-counter { font-size: 13px; color: #f1c40f; margin: 5px 0; }
         #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
+        
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
             background-color: #1e1e24; border-top: 2px solid #2c3e50;
@@ -124,10 +136,12 @@
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         .nav-text { font-size: 11px; font-weight: bold; }
         .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+        .modal-overlay { display: none; }
     </style>
 </head>
 <body>
 
+    <!-- Верхнее меню -->
     <div class="header-menu">
         <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
         <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
@@ -135,11 +149,13 @@
         <button id="auth-header-btn" class="header-btn">firgelo 👤</button>
     </div>
 
+    <!-- Главный контейнер -->
     <div class="main-wrapper">
         <div class="roulette-container">
             <h3>🎡 Колесо Фортуны:</h3>
-            <div class="wheel-box" id="wheel">
+            <div class="wheel-box">
                 <div class="wheel-arrow">▼</div>
+                <div id="wheel"></div>
                 <div class="wheel-center-cap"></div>
             </div>
             
@@ -160,15 +176,17 @@
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
 
+    <!-- НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ -->
     <div class="bottom-nav">
         <a href="game.html" class="nav-item active"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
         <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
         <a href="clicker.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
     </div>
 
+    <!-- ЛОГИКА РАБОТЫ ИГРЫ -->
     <script>
         let coins = parseInt(localStorage.getItem('casino_coins')) || 100;
-        let jackpots = parseInt(localStorage.getItem('casino_jackpots')) || 0;
+        let jacklots = parseInt(localStorage.getItem('casino_jackpots')) || 0;
         
         const coinsCounter = document.getElementById('coins-counter');
         const jackpotCounter = document.getElementById('jackpot-counter');
@@ -178,7 +196,7 @@
 
         function updateUI() {
             coinsCounter.innerText = `💰 Монеты: ${coins}`;
-            jackpotCounter.innerText = `👑 Джекпотов: ${jackpots}`;
+            jackpotCounter.innerText = `👑 Джекпотов: ${jacklots}`;
         }
         updateUI();
 
@@ -208,13 +226,13 @@
                 
                 if (sector === 0) { coins += 10; resultText.innerText = "🔴 Красный! +10 💰"; }
                 else if (sector === 1) { coins = 0; resultText.innerText = "💀 Черный! ВЫ БАНКРОТ!"; }
-                else if (sector === 2) { coins += 50; jackpots++; resultText.innerText = "👑 Оранжевый! ДЖЕКПОТ +50 💎"; }
+                else if (sector === 2) { coins += 50; jacklots++; resultText.innerText = "👑 Оранжевый! ДЖЕКПОТ +50 💎"; }
                 else if (sector === 3) { resultText.innerText = "⚪ Белый! Пусто 😢"; }
                 else if (sector === 4) { coins += 30; resultText.innerText = "🔵 Синий! +30 💰"; }
                 else { coins *= 2; resultText.innerText = "🔥 Зеленый! x2!"; }
                 
                 localStorage.setItem('casino_coins', coins);
-                localStorage.setItem('casino_jackpots', jackpots);
+                localStorage.setItem('casino_jackpots', jacklots);
                 updateUI();
             }, 4000);
         });
