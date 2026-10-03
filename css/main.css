@@ -196,3 +196,42 @@ body {
 .modal-list-container { display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; }
 .modal-item-btn { background-color: #1e1e24; color: white; border: 1px solid #57606f; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .modal-item-btn.active { background-color: #2ed573 !important; border-color: #2ed573 !important; }
+/* АДАПТАЦИЯ ИГРЫ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ */
+@media (max-width: 768px) {
+    /* Перестраиваем три колонки в одну вертикальную линию */
+    .game-and-roulette {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px; /* Отступы между играми */
+    }
+
+    /* Убираем вертикальные разделители, так как игры теперь идут сверху вниз */
+    .game-divider {
+        display: none;
+    }
+
+    /* Делаем контейнеры игр шире, чтобы они занимали весь экран смартфона */
+    .roulette-container, .dice-container, .clicker-container {
+        width: 100%;
+        max-width: 340px;
+        box-sizing: border-box;
+    }
+
+    /* Исправляем верхнее меню, чтобы кнопки не налезали друг на друга */
+    .header-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Кнопки встанут в 2 ряда по 2 штуки */
+        gap: 8px;
+        width: 100%;
+        max-width: 340px;
+        margin: 0 auto 20px auto;
+    }
+
+    .header-btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px 4px;
+    }
+}
+
