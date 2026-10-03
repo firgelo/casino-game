@@ -17,6 +17,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            /* УБИРАЕМ СИНЕВУ И ВЫДЕЛЕНИЯ НА 100% */
             -webkit-tap-highlight-color: transparent !important;
             -webkit-user-select: none !important;
             user-select: none !important;
@@ -73,11 +74,12 @@
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
 
+    <!-- ТАБ-БАР НА 4 КНОПКИ -->
     <div class="bottom-nav">
-        <a href="game.html?v=2" class="nav-item active"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
-        <a href="dice.html?v=2" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
-        <a href="clicker.html?v=2" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
-        <a href="profile.html?v=2" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
+        <a href="game.html" class="nav-item active"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
+        <a href="clicker.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+        <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
     </div>
 
     <script>
@@ -88,13 +90,16 @@
         const resultText = document.getElementById('c');
         const wheel = document.getElementById('wheel');
         const spinBtn = document.getElementById('spin-btn');
+        
         function updateUI() { coinsCounter.innerText = `💰 Монеты: ${coins}`; jackpotCounter.innerText = `👑 Джекпотов: ${jacklots}`; }
         updateUI();
+        
         let isSpinning = false; let currentRotation = 0;
+        
         spinBtn.addEventListener('click', () => {
             if (isSpinning) return;
             if (coins < 20) { resultText.innerText = "❌ Недостаточно монет!"; return; }
-            coins -= 20; isSpinning = true; updateUI();
+            coins -= 20; isSpinning = true; resultText.innerText = "🎡 Колесо крутится..."; updateUI();
             const randomDegrees = Math.floor(Math.random() * 360);
             currentRotation += 1440 + randomDegrees;
             wheel.style.transform = `rotate(${currentRotation}deg)`;
