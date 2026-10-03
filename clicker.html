@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Биткоин Кликер</title>
-    <link rel="stylesheet" href="https://github.io">
-
     
     <!-- ПОДКЛЮЧЕНИЕ TELEGRAM WEB APP -->
     <script src="https://telegram.org"></script>
@@ -13,89 +11,114 @@
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
     </script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .main-wrapper {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            padding: 10px 15px 100px 15px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .header-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+            max-width: 360px;
+            margin: 15px auto 15px auto;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        .header-btn {
+            background-color: #2c3e50;
+            color: white;
+            border: 2px solid #34495e;
+            height: 42px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        
+        /* Стили кликера */
+        .clicker-container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            margin-top: 10px;
+        }
+        .clicker-container h3 { margin-top: 0; color: #ffa502; }
+        #coin-wrapper { margin: 20px 0; display: flex; justify-content: center; }
+        #clicker-coin {
+            width: 130px; height: 130px; background: linear-gradient(135deg, #ffa502, #ff7f50);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 60px; font-weight: bold; cursor: pointer; user-select: none;
+            box-shadow: 0 0 20px rgba(255, 165, 2, 0.4); transition: transform 0.05s;
+        }
+        #clicker-coin:active { transform: scale(0.95); }
+        .clicker-stats { background: #111; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: left; }
+        #clicker-balance, #clicker-pps { font-size: 14px; margin: 4px 0; font-weight: bold; }
+        #buy-click-power-btn { background-color: #ffa502; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 8px; cursor: pointer; }
+        #buy-upgrade-btn { background-color: #ff7f50; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        #c { font-size: 14px; color: #1dd1a1; margin: 15px 0 5px 0; font-weight: bold; }
+        #jackpot-counter { font-size: 13px; color: #f1c40f; margin: 5px 0; }
+        #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
+        .modal-overlay { display: none; }
+
+        /* ТАБ-БАР (НИЖНЕЕ МЕНЮ) */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
+            background-color: #1e1e24; border-top: 2px solid #2c3e50;
+            display: flex; justify-content: space-around; align-items: center; z-index: 99999;
+        }
+        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%; height: 100%; }
+        .nav-icon { font-size: 18px; margin-bottom: 2px; }
+        .nav-text { font-size: 11px; font-weight: bold; }
+        .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    </style>
 </head>
 <body>
 
-    <!-- Верхнее игровое меню управления -->
     <div class="header-menu">
         <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
         <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
         <button id="inv-open-btn" class="header-btn">Инвентарь 🎒</button>
-        <button id="auth-header-btn" class="header-btn">Войти 👤</button>
+        <button id="auth-header-btn" class="header-btn">firgelo 👤</button>
     </div>
 
-    <!-- Главный контейнер -->
     <div class="main-wrapper">
-        <div class="game-and-roulette">
-            
-            <!-- Правая колонка: ЗАЛИПАТЕЛЬНЫЙ КЛИКЕР -->
-            <div class="clicker-container" style="display: block !important;">
-                <h3>⚡ Биткоин Кликер:</h3>
-                <div id="coin-wrapper">
-                    <div id="clicker-coin">
-                        <span>₿</span>
-                        <div class="coin-glare"></div>
-                    </div>
-                </div>
-                
-                <div class="clicker-stats">
-                    <div id="clicker-balance">₿ Кэш: 0</div>
-                    <div id="clicker-pps">Доход/сек: +0</div>
-                </div>
-                
-                <button id="buy-click-power-btn">Клик +1 (1000 💰) [Лвл. 1]</button>
-                <button id="buy-upgrade-btn">Купить Видеокарту (50 ₿)</button>
+        <div class="clicker-container">
+            <h3>⚡ Биткоин Кликер:</h3>
+            <div id="coin-wrapper">
+                <div id="clicker-coin"><span>₿</span></div>
             </div>
-
+            <div class="clicker-stats">
+                <div id="clicker-balance">₿ Кэш: 0</div>
+                <div id="clicker-pps">Доход/сек: +0</div>
+            </div>
+            <button id="buy-click-power-btn">Клик +1 (1000 💰) [Лвл. 1]</button>
+            <button id="buy-upgrade-btn">Купить Видеокарту (50 ₿)</button>
         </div>
-
-        <!-- Центральные элементы баланса -->
         <p id="c">Нажми на кнопку, чтобы начать игру!</p>
         <p id="jackpot-counter">👑 Джекпотов: 0</p>
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
 
-    <!-- ВСПЛЫВАЮЩИЕ ОКНА -->
-    <div id="auth-modal" class="modal-overlay">
-        <div class="modal-window">
-            <h2>Регистрация игрока 🎲</h2>
-            <p>Введите свое имя, чтобы сохранить прогресс:</p>
-            <input type="text" id="modal-username-input" placeholder="Ваш никнейм" maxlength="12">
-            <button id="modal-save-btn">Сохранить</button>
-        </div>
-    </div>
-
-    <div id="promo-modal" class="modal-overlay">
-        <div class="modal-window">
-            <span class="close-modal-x" id="promo-close-x">&times;</span>
-            <h2>🎁 Активация промокода</h2>
-            <p>Введите секретный код, чтобы получить подарок:</p>
-            <input type="text" id="modal-promo-input" placeholder="Введите промокод">
-            <button id="modal-promo-activate-btn">Активировать</button>
-        </div>
-    </div>
-
-    <div id="shop-modal" class="modal-overlay">
-        <div class="modal-window shop-window">
-            <span class="close-modal-x" id="shop-close-x">&times;</span>
-            <h2>🛒 Магазин скинов</h2>
-            <p>Покупайте цвета для вашей неоновой надписи:</p>
-            <div id="shop-items-list" class="modal-list-container"></div>
-        </div>
-    </div>
-
-    <div id="inv-modal" class="modal-overlay">
-        <div class="modal-window inv-window">
-            <span class="close-modal-x" id="inv-close-x">&times;</span>
-            <h2>🎒 Ваш инвентарь</h2>
-            <p>Выберите активный цвет для текста результатов:</p>
-            <div id="inv-items-list" class="modal-list-container"></div>
-        </div>
-    </div>
-
-    <!-- НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ (ТАБ-БАР) -->
     <div class="bottom-nav">
-        <a href="fortune.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="wheel.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
         <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
         <a href="clicker.html" class="nav-item active"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
     </div>
