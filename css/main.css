@@ -45,11 +45,9 @@ body {
         margin: 0 auto !important;
         padding: 10px !important;
         box-sizing: border-box !important;
-        /* Добавляем огромный отступ снизу, чтобы игры не утыкались в нижнее меню */
         padding-bottom: 100px !important; 
     }
 
-    /* Раскладываем все блоки по центру */
     .game-and-roulette {
         display: block !important;
         width: 100% !important;
@@ -65,10 +63,10 @@ body {
         margin: 10px auto 25px auto !important;
         padding: 0 10px !important;
         box-sizing: border-box !important;
-        background: none !important; /* Убираем тяжелый фон */
+        background: none !important;
     }
 
-    /* Исправляем сжатые овальные кнопки, делаем их прямоугольными */
+    /* Исправляем сжатые овальные кнопки */
     .header-btn {
         width: 100% !important;
         height: 42px !important;
@@ -79,16 +77,24 @@ body {
         box-sizing: border-box !important;
     }
 
-    /* ОПУСКАЕМ И УМЕНЬШАЕМ КОЛЕСО ФОРТУНЫ, ЧТОБЫ ОНО НЕ СЛИПАЛОСЬ */
+    /* ОПУСКАЕМ И УМЕНЬШАЕМ КОЛЕСО ФОРТУНЫ */
     .roulette-container {
         margin-top: 10px !important;
         text-align: center !important;
     }
 
     .wheel-box {
-        width: 260px !important; /* Немного уменьшаем размер колеса для мобилки */
+        width: 260px !important; 
         height: 260px !important;
         margin: 0 auto 20px auto !important;
+        position: relative !important;
+    }
+
+    /* ВОЗВРАЩАЕМ САМО КОЛЕСО НА ЭКРАН */
+    #wheel {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
     }
 
     /* КНОПКА КРУЧЕНИЯ КРУПНАЯ И УДОБНАЯ */
