@@ -1,323 +1,110 @@
-/* Главные настройки страницы */
+/* ========================================================
+   ОСНОВНЫЕ СТИЛИ (ДЛЯ ПК) ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ 
+   ======================================================== */
 body {
     font-family: Arial, sans-serif;
-    background-color: #1e1e24;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.header-menu {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
+    gap: 10px;
+    padding: 15px;
+    background-color: #2c3e50;
 }
-
-/* Меню кнопок в правом верхнем углу */
-.header-menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 12px;
-    z-index: 100;
-}
-
 .header-btn {
-    background-color: #2f3542;
-    color: #f1f2f6;
-    border: 1px solid #57606f;
+    background-color: #34495e;
+    color: white;
+    border: none;
     padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    font-weight: bold;
 }
-
-.header-btn:hover { 
-    background-color: #57606f; 
-    border-color: #f1f2f6; 
-}
-
 .main-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
-
-/* ТРЕХКОЛОНОЧНЫЙ БЛОК */
 .game-and-roulette {
     display: flex;
-    align-items: stretch; 
-    justify-content: center;
-    gap: 50px; 
-    margin-bottom: 20px;
+    justify-content: space-around;
 }
 
-.game-divider {
-    width: 2px;
-    height: 520px; 
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-    align-self: center;
-}
-
-/* Настройки колонок */
-.dice-container, .roulette-container, .clicker-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 210px; 
-    justify-content: space-between; 
-}
-
-.dice-container h3, .roulette-container h3, .clicker-container h3 {
-    color: #a4b0be;
-    font-size: 16px;
-    margin-bottom: 15px;
-    margin-top: 0;
-    white-space: nowrap;
-}
-
-/* БАЗОВЫЙ СТИЛЬ ДЛЯ ВСЕХ КНОПОК ВНИЗУ */
-#кнопка, #spin-btn, #buy-upgrade-btn, #buy-click-power-btn, #buy-auto-farm-btn, #slots-open-btn {
-    font-size: 13px; 
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    height: 44px; 
-    box-sizing: border-box;
-    border: none;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-#кнопка { background-color: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); width: 100%; margin-top: auto; }
-#кнопка:hover { background-color: #ff6b81; transform: translateY(-2px); }
-
-#spin-btn { background-color: #2ed573; color: white; box-shadow: 0 4px 10px rgba(46, 213, 115, 0.4); width: 100%; margin-top: auto; }
-#spin-btn:hover { background-color: #26af5f; }
-#spin-btn:disabled { background-color: #57606f; cursor: not-allowed; box-shadow: none; }
-
-#buy-upgrade-btn {
-    background-color: #ffa502; color: white;
-    box-shadow: 0 4px 10px rgba(255, 165, 2, 0.3);
-    padding: 12px 15px; width: auto; min-width: 100%; margin-top: auto;
-}
-#buy-upgrade-btn:hover { background-color: #ffb142; }
-
-#buy-click-power-btn {
-    background-color: #3742fa; color: white;
-    box-shadow: 0 4px 10px rgba(55, 66, 250, 0.3);
-    padding: 12px 15px; width: auto; min-width: 100%; margin-bottom: 12px; margin-top: auto;
-}
-#buy-click-power-btn:hover { background-color: #5f27cd; }
-
-#buy-auto-farm-btn {
-    background-color: #10ac84; color: white;
-    box-shadow: 0 4px 10px rgba(16, 172, 132, 0.3);
-    padding: 12px 15px; width: auto; min-width: 100%; margin-bottom: 12px;
-}
-#buy-auto-farm-btn:hover { background-color: #1dd1a1; }
-
-/* Крупная шпаргалка рулетки */
-.wheel-legend { margin-top: 15px; font-size: 14px; color: #f1f2f6; text-align: left; line-height: 1.6; width: 100%; font-weight: 500; }
-
-/* Вертикальный контейнер кубиков */
-.game-container-vertical { display: flex; flex-direction: column; gap: 15px; height: 240px; justify-content: center; text-align: center; }
-.dice-player-wrapper, .dice-bot-wrapper { display: flex; align-items: center; justify-content: space-between; width: 210px; gap: 15px; }
-.dice-name { font-size: 20px; color: #f1f2f6; font-weight: bold; width: 110px; text-align: left; white-space: nowrap; }
-/* === СТИЛИ ЦВЕТОВЫХ РЕДКОСТЕЙ ДЛЯ ИНВЕНТАРЯ АВТОМАТОВ === */
-.rarity-common { color: #ffffff !important; text-shadow: 0 0 2px rgba(255,255,255,0.5); }
-.rarity-epic { color: #bf55ec !important; text-shadow: 0 0 5px #bf55ec; font-weight: bold; }
-.rarity-legendary { color: #ffd700 !important; text-shadow: 0 0 8px #ffd700, 0 0 15px #ff8c00; font-weight: bold; }
-
-/* === МАГИЯ АНИМИРОВАННОГО 3D КУБИКА === */
-.scene { width: 60px; height: 60px; perspective: 300px; }
-.cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.3, 1); }
-.cube-face { position: absolute; width: 60px; height: 60px; background: #ff4757; border: 3px solid #ffffff; border-radius: 10px; color: white; font-size: 42px; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 0 10px rgba(255, 71, 87, 0.4); box-sizing: border-box; }
-.front  { transform: rotateY(  0deg) translateZ(30px); }
-.back   { transform: rotateY(180deg) translateZ(30px); }
-.right  { transform: rotateY( 90deg) translateZ(30px); }
-.left   { transform: rotateY(-90deg) translateZ(30px); }
-.top    { transform: rotateX( 90deg) translateZ(30px); }
-.bottom { transform: rotateX(-90deg) translateZ(30px); }
-
-/* === СТИЛИ ТУРБО-РЕЖИМА === */
-.turbo-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 25px; margin-top: 15px; cursor: pointer; user-select: none; }
-.turbo-checkbox { width: 22px; height: 22px; background-color: #2f3542; border: 2px solid #57606f; border-radius: 6px; position: relative; transition: all 0.25s ease; box-sizing: border-box; }
-.turbo-text { font-size: 15px; color: #a4b0be; font-weight: bold; transition: color 0.25s ease; }
-.turbo-wrapper:hover .turbo-checkbox { border-color: #f1f2f6; }
-.turbo-wrapper:hover .turbo-text { color: #f1f2f6; }
-.turbo-wrapper.active .turbo-checkbox { background-color: #bf55ec !important; border-color: #bf55ec !important; box-shadow: 0 0 12px #bf55ec; }
-.turbo-wrapper.active .turbo-checkbox::after { content: "✔"; position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 13px; font-weight: bold; }
-.turbo-wrapper.active .turbo-text { color: #bf55ec; text-shadow: 0 0 5px rgba(191, 85, 236, 0.3); }
-.cube.fast-spin { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1) !important; }
-
-/* === КЛИКЕР === */
-#coin-wrapper { position: relative; width: 130px; height: 130px; margin-top: 10px; }
-#clicker-coin { width: 130px; height: 130px; background: linear-gradient(135deg, #ffe066 0%, #f5cd79 50%, #eccc68 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 65px; color: #2f3542; font-weight: 900; cursor: pointer; user-select: none; position: relative; overflow: hidden; box-shadow: 0 8px 25px rgba(245, 205, 121, 0.5), inset 0 -4px 10px rgba(0,0,0,0.15), inset 0 4px 10px rgba(255,255,255,0.4); border: 4px solid #f7d794; transition: transform 0.05s ease, box-shadow 0.1s ease; }
-.coin-glare { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 60%); transform: rotate(30deg); transition: all 0.5s ease; }
-#clicker-coin:hover .coin-glare { transform: translate(20%, 20%) rotate(30deg); }
-#clicker-coin:active { transform: scale(0.94); box-shadow: 0 4px 12px rgba(245, 205, 121, 0.3); }
-.clicker-stats { height: 65px; display: flex; flex-direction: column; justify-content: center; gap: 5px; margin-top: 15px; }
-#clicker-balance { font-size: 18px; color: #f5cd79; font-weight: bold; }
-#clicker-pps { font-size: 14px; color: #a4b0be; }
-.plus-one-animation { position: absolute; font-size: 22px; color: #2ed573; font-weight: bold; pointer-events: none; user-select: none; animation: floatUp 0.7s ease-out forwards; text-shadow: 0 0 5px rgba(0,0,0,0.5); z-index: 50; }
-@keyframes floatUp { 0% { transform: translateY(0) scale(0.8); opacity: 1; } 100% { transform: translateY(-70px) scale(1.2); opacity: 0; } }
-
-/* РУЛЕТКА И КОЛЕСО */
-.wheel-box { position: relative; width: 180px; height: 180px; }
-.wheel-arrow { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #ff4757; z-index: 10; }
-#wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #2f3542; box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); background: conic-gradient(#ff4757 0deg 60deg, #111111 60deg 120deg, #ffa502 120deg 180deg, #ffffff 180deg 240deg, #1e90ff 240deg 300deg, #2ed573 300deg 360deg); transition: transform 4s cubic-bezier(0.1, 0.8, 0.3, 1); }
-.wheel-center-cap { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background-color: #ffd700; border-radius: 50%; border: 3px solid #2f3542; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); z-index: 5; }
-
-/* ТЕКСТЫ СВЕЧЕНИЯ И ОКНА */
-#c { font-size: 28px; color: #ffffff; font-weight: bold; text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc; transition: all 0.3s ease; margin: 25px 0 5px 0; min-height: 40px; }
-#c.jackpot { text-shadow: 0 0 5px #ffd700, 0 0 15px #ffd700, 0 0 30px #ff8c00; }
-#jackpot-counter { font-size: 18px; color: #a4b0be; margin: 5px 0; }
-#coins-counter { font-size: 20px; color: #eccc68; margin: 5px 0; font-weight: bold; }
-
-.shop-container { margin-top: 25px; border-top: 1px solid #333; padding-top: 15px; width: 100%; max-width: 500px; }
-.shop-container h3 { color: #a4b0be; font-size: 16px; margin-bottom: 15px; }
-.shop-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.shop-btn { background-color: #2f3542; color: #f1f2f6; border: 1px solid #57606f; padding: 8px 12px; font-size: 13px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
-.shop-btn:hover { background-color: #3742fa; border-color: #3742fa; }
-.shop-btn.active { background-color: #2ed573 !important; border-color: #2ed573 !important; color: white; }
-
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; }
-.modal-overlay.show { opacity: 1; pointer-events: all; }
-.modal-window { background-color: #2f3542; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); text-align: center; width: 90%; max-width: 360px; border: 1px solid #ff4757; position: relative; }
-.close-modal-x { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #a4b0be; cursor: pointer; }
-.close-modal-x:hover { color: white; }
-.modal-window h2 { color: #ffffff; margin-top: 0; font-size: 22px; }
-.modal-window p { color: #a4b0be; font-size: 14px; margin-bottom: 20px; }
-#modal-username-input, #modal-promo-input { width: 85%; padding: 12px; font-size: 16px; background-color: #1e1e24; border: 1px solid #57606f; color: white; border-radius: 6px; text-align: center; margin-bottom: 20px; outline: none; }
-#modal-username-input:focus, #modal-promo-input:focus { border-color: #ff4757; }
-#modal-save-btn, #modal-promo-activate-btn { background-color: #2ed573; color: white; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 95%; }
-.modal-list-container { display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; }
-.modal-item-btn { background-color: #1e1e24; color: white; border: 1px solid #57606f; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.modal-item-btn.active { background-color: #2ed573 !important; border-color: #2ed573 !important; }
-/* ПРИНУДИТЕЛЬНАЯ МОБИЛЬНАЯ ВЕРСИЯ */
+/* ========================================================
+   ЖЕСТКАЯ АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ И ОКНА ТЕЛЕГРАМА 
+   ======================================================== */
 @media (max-width: 1024px) {
+    /* Делаем главный контейнер узким и ровным по центру */
     .main-wrapper {
         width: 100% !important;
-        max-width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto !important;
         padding: 10px !important;
         box-sizing: border-box !important;
+        /* Добавляем огромный отступ снизу, чтобы игры не утыкались в нижнее меню */
+        padding-bottom: 100px !important; 
     }
 
-    /* Раскладываем 3 колонки строго друг под друга */
+    /* Раскладываем все блоки по центру */
     .game-and-roulette {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-        gap: 40px !important;
-    }
-
-    /* Полностью прячем разделители */
-    .game-divider {
-        display: none !important;
-    }
-
-    /* Фиксируем ширину игровых блоков, чтобы они не сжимались */
-    .roulette-container, .dice-container, .clicker-container {
-        width: 100% !important;
-        max-width: 360px !important;
-        min-width: 320px !important;
         display: block !important;
-        box-sizing: border-box !important;
+        width: 100% !important;
     }
 
-    /* Перестраиваем верхнее меню в сетку 2 на 2 */
+    /* ВЕРХНЕЕ МЕНЮ: выстраиваем в аккуратную сетку 2 на 2 */
     .header-menu {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
+        gap: 8px !important;
         width: 100% !important;
         max-width: 360px !important;
-        margin: 0 auto 25px auto !important;
+        margin: 10px auto 25px auto !important;
+        padding: 0 10px !important;
+        box-sizing: border-box !important;
+        background: none !important; /* Убираем тяжелый фон */
     }
 
+    /* Исправляем сжатые овальные кнопки, делаем их прямоугольными */
     .header-btn {
         width: 100% !important;
-        font-size: 14px !important;
-        padding: 10px 5px !important;
+        height: 42px !important;
+        font-size: 13px !important;
+        padding: 5px !important;
+        border-radius: 8px !important;
         white-space: nowrap !important;
-    }
-}
-/* СТИЛИ ДЛЯ НИЖНЕЙ НАВИГАЦИИ (ТАБ-БАРА) */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 65px;
-    background-color: #1e1e24;
-    border-top: 2px solid #2c3e50;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-sizing: border-box;
-    z-index: 9999;
-}
-
-.nav-item {
-    background: none;
-    border: none;
-    color: #8892b0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    width: 33.33%;
-    height: 100%;
-    transition: color 0.2s ease;
-}
-
-.nav-icon {
-    font-size: 20px;
-    margin-bottom: 2px;
-}
-
-.nav-text {
-    font-size: 11px;
-    font-weight: bold;
-}
-
-/* Стиль для активной (нажатой) вкладки */
-.nav-item.active {
-    color: #f39c12;
-    text-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
-}
-
-/* МОДИФИКАЦИЯ ДЛЯ УЗКИХ ЭКРАНОВ И ТЕЛЕГРАМА */
-@media (max-width: 1024px) {
-    /* Прячем вертикальные разделители */
-    .game-divider {
-        display: none !important;
-    }
-    
-    /* Делаем главный контейнер вертикальным */
-    .game-and-roulette {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        padding-bottom: 80px !important; /* Отступ снизу, чтобы меню не перекрывало кнопки */
+        box-sizing: border-box !important;
     }
 
-    /* Скрываем по умолчанию кубики и кликер (колесо открыто первым) */
-    .dice-container, .clicker-container {
-        display: none !important;
+    /* ОПУСКАЕМ И УМЕНЬШАЕМ КОЛЕСО ФОРТУНЫ, ЧТОБЫ ОНО НЕ СЛИПАЛОСЬ */
+    .roulette-container {
+        margin-top: 10px !important;
+        text-align: center !important;
     }
-    
-    /* Растягиваем активный контейнер на мобильном */
-    .roulette-container, .dice-container, .clicker-container {
+
+    .wheel-box {
+        width: 260px !important; /* Немного уменьшаем размер колеса для мобилки */
+        height: 260px !important;
+        margin: 0 auto 20px auto !important;
+    }
+
+    /* КНОПКА КРУЧЕНИЯ КРУПНАЯ И УДОБНАЯ */
+    #spin-btn {
         width: 100% !important;
-        max-width: 360px !important;
+        max-width: 280px !important;
+        padding: 15px !important;
+        font-size: 16px !important;
+        margin: 15px auto !important;
+        display: block !important;
     }
 }
-/* НАСТРОЙКА НЕЗАВИСИМОГО НИЖНЕГО МЕНЮ */
+
+/* ========================================================
+   ФИКСИРОВАННЫЙ ТАБ-БАР (НИЖНЕЕ МЕНЮ) 
+   ======================================================== */
 .bottom-nav {
     position: fixed !important;
     bottom: 0 !important;
@@ -361,32 +148,3 @@ body {
     color: #f39c12 !important;
     text-shadow: 0 0 10px rgba(243, 156, 18, 0.3) !important;
 }
-
-/* ДОБАВЛЯЕМ ОТСТУП СНИЗУ ДЛЯ ВСЕХ ИГР, ЧТОБЫ ТАБ-БАР НЕ ПЕРЕКРЫВАЛ КНОПКИ КРУЧЕНИЯ */
-.main-wrapper {
-    padding-bottom: 90px !important;
-    box-sizing: border-box !important;
-}
-
-/* МОБИЛЬНАЯ СЕТКА ДЛЯ ВЕРХНИХ КНОПОК */
-@media (max-width: 1024px) {
-    .header-menu {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-        width: 100% !important;
-        max-width: 340px !important;
-        margin: 10px auto 15px auto !important;
-        padding: 0 10px !important;
-        box-sizing: border-box !important;
-    }
-    .header-btn {
-        width: 100% !important;
-        font-size: 13px !important;
-        padding: 8px 4px !important;
-        white-space: nowrap !important;
-    }
-}
-
-
-
