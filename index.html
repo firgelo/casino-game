@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mega Game Center</title>
     <link rel="stylesheet" href="/css/main.css">
+    
+    <!-- ПОДКЛЮЧЕНИЕ TELEGRAM WEB APP -->
+    <script src="https://telegram.org"></script>
+    <script>
+        // Сообщаем Telegram, что приложение готово, и принудительно раскрываем на максимум
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    </script>
 </head>
+
 <body>
 
     <!-- Верхнее игровое меню управления -->
