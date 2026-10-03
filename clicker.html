@@ -26,30 +26,9 @@
             width: 100%; 
             max-width: 360px; 
             margin: 0 auto; 
-            padding: 10px 15px 100px 15px; 
+            padding: 30px 15px 100px 15px; 
             box-sizing: border-box; 
             text-align: center; 
-        }
-        .header-menu { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 8px; 
-            width: 100%; 
-            max-width: 360px; 
-            margin: 15px auto; 
-            padding: 0 15px; 
-            box-sizing: border-box; 
-        }
-        .header-btn { 
-            background-color: #2c3e50; 
-            color: white; 
-            border: 2px solid #34495e; 
-            height: 42px; 
-            font-size: 13px; 
-            font-weight: bold; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            -webkit-tap-highlight-color: transparent;
         }
         .clicker-container { 
             background-color: #222; 
@@ -57,7 +36,7 @@
             border-radius: 12px; 
             border: 1px solid #333; 
             margin-top: 10px; 
-            position: relative; /* Чтобы всплывающие цифры позиционировались относительно контейнера */
+            position: relative; 
         }
         .clicker-container h3 { margin-top: 0; color: #ffa502; }
         
@@ -90,12 +69,13 @@
         #clicker-balance, #clicker-pps { font-size: 14px; margin: 4px 0; font-weight: bold; }
         #buy-click-power-btn { background-color: #ffa502; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 8px; cursor: pointer; }
         #buy-upgrade-btn { background-color: #ff7f50; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
+        #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 15px 0 5px 0; }
         
+        /* ТАБ-БАР НА 4 КНОПКИ */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #1e1e24; border-top: 2px solid #2c3e50; display: flex; justify-content: space-around; align-items: center; z-index: 99999; }
-        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%; height: 100%; -webkit-tap-highlight-color: transparent; }
+        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25%; height: 100%; -webkit-tap-highlight-color: transparent; }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
-        .nav-text { font-size: 11px; font-weight: bold; }
+        .nav-text { font-size: 10px; font-weight: bold; }
         .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
 
         /* ЭФФЕКТ ВСПЛЫВАЮЩЕГО КЛИКА ТЕКСТА */
@@ -123,13 +103,6 @@
 </head>
 <body>
 
-    <div class="header-menu">
-        <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
-        <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
-        <button id="inv-open-btn" class="header-btn">Инвентарь 🎒</button>
-        <button id="auth-header-btn" class="header-btn">firgelo 👤</button>
-    </div>
-
     <div class="main-wrapper">
         <div class="clicker-container" id="click-zone">
             <h3>⚡ Биткоин Кликер:</h3>
@@ -146,10 +119,12 @@
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
 
+    <!-- Обновленный нижний таб-бар на 4 кнопки -->
     <div class="bottom-nav">
         <a href="game.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
         <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
         <a href="clicker.html" class="nav-item active"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+        <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
     </div>
 
     <script>
@@ -174,13 +149,11 @@
         }
         updateUI();
 
-        // Функция создания вылетающих цифр строго в точке нажатия пальца
         function createFloatingText(x, y) {
             const floatText = document.createElement('div');
             floatText.className = 'floating-number';
             floatText.innerText = `+${clickPower}`;
             
-            // Получаем координаты относительно контейнера игры
             const rect = clickZone.getBoundingClientRect();
             const relX = x - rect.left;
             const relY = y - rect.top;
@@ -190,16 +163,13 @@
             
             clickZone.appendChild(floatText);
             
-            // Удаляем элемент после завершения анимации
             setTimeout(() => floatText.remove(), 600);
         }
 
-        // Обработка кликов
         coin.addEventListener('click', (e) => {
             bitcoin += clickPower;
             localStorage.setItem('crypto_btc', bitcoin);
             
-            // Берем координаты клика мыши или тача пальца
             createFloatingText(e.clientX, e.clientY);
             updateUI();
         });
@@ -212,11 +182,11 @@
                 localStorage.setItem('casino_coins', coins);
                 localStorage.setItem('click_power', clickPower);
                 updateUI();
-            } else { alert("❌ Недостаточно монет!"); }
+            } else { alert("❌ Недостаточно монет! Выиграйте их в Колесе или Кубиках."); }
         });
 
         buyGpuBtn.addEventListener('click', () => {
-            if (bitcoin >= 50) { // Сделали покупку видеокарты за 50 BTC по балансу
+            if (bitcoin >= 50) {
                 bitcoin -= 50;
                 btcPerSec += 1;
                 localStorage.setItem('crypto_btc', bitcoin);
@@ -226,7 +196,6 @@
             } else { alert("❌ Нужно минимум 50 ₿!"); }
         });
 
-        // Автофарм
         setInterval(() => {
             if (btcPerSec > 0) {
                 bitcoin += btcPerSec;
