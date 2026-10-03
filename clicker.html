@@ -10,46 +10,128 @@
         window.Telegram.WebApp.expand();
     </script>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #1a1a1a; color: #ffffff; margin: 0; padding: 0; overflow-x: hidden; }
-        .main-wrapper { width: 100%; max-width: 360px; margin: 0 auto; padding: 10px 15px 100px 15px; box-sizing: border-box; text-align: center; position: relative; }
-        .header-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 360px; margin: 15px auto; padding: 0 15px; box-sizing: border-box; }
-        .header-btn { background-color: #2c3e50; color: white; border: 2px solid #34495e; height: 42px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        .clicker-container { background-color: #222; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-top: 10px; position: relative; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #1a1a1a; 
+            color: #ffffff; 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden; 
+            /* Полностью убираем выделение текста и синие квадраты при клике на смартфонах */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .main-wrapper { 
+            width: 100%; 
+            max-width: 360px; 
+            margin: 0 auto; 
+            padding: 10px 15px 100px 15px; 
+            box-sizing: border-box; 
+            text-align: center; 
+        }
+        .header-menu { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 8px; 
+            width: 100%; 
+            max-width: 360px; 
+            margin: 15px auto; 
+            padding: 0 15px; 
+            box-sizing: border-box; 
+        }
+        .header-btn { 
+            background-color: #2c3e50; 
+            color: white; 
+            border: 2px solid #34495e; 
+            height: 42px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        .clicker-container { 
+            background-color: #222; 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid #333; 
+            margin-top: 10px; 
+            position: relative; /* Чтобы всплывающие цифры позиционировались относительно контейнера */
+        }
         .clicker-container h3 { margin-top: 0; color: #ffa502; }
-        #coin-wrapper { margin: 20px 0; display: flex; justify-content: center; position: relative; }
-        #clicker-coin { width: 130px; height: 130px; background: linear-gradient(135deg, #ffa502, #ff7f50); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; cursor: pointer; user-select: none; box-shadow: 0 0 20px rgba(255, 165, 2, 0.4); transition: transform 0.05s; }
-        #clicker-coin:active { transform: scale(0.95); }
+        
+        #coin-wrapper { 
+            margin: 40px 0; 
+            display: flex; 
+            justify-content: center; 
+            position: relative; 
+        }
+        #clicker-coin { 
+            width: 140px; 
+            height: 140px; 
+            background: linear-gradient(135deg, #ffa502, #ff7f50); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 65px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            box-shadow: 0 0 25px rgba(255, 165, 2, 0.4); 
+            transition: transform 0.05s ease; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        #clicker-coin:active { 
+            transform: scale(0.92); 
+        }
+        
         .clicker-stats { background: #111; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: left; }
         #clicker-balance, #clicker-pps { font-size: 14px; margin: 4px 0; font-weight: bold; }
         #buy-click-power-btn { background-color: #ffa502; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 8px; cursor: pointer; }
         #buy-upgrade-btn { background-color: #ff7f50; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
         #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
+        
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #1e1e24; border-top: 2px solid #2c3e50; display: flex; justify-content: space-around; align-items: center; z-index: 99999; }
-        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%; height: 100%; }
+        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33.33%; height: 100%; -webkit-tap-highlight-color: transparent; }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         .nav-text { font-size: 11px; font-weight: bold; }
         .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
-        
-        /* Всплывающий текст клика */
-        .floating-click-text {
-            position: absolute; color: #ffa502; font-weight: bold; font-size: 18px;
-            pointer-events: none; animation: floatUp 0.6s ease-out forwards; z-index: 1000;
+
+        /* ЭФФЕКТ ВСПЛЫВАЮЩЕГО КЛИКА ТЕКСТА */
+        .floating-number {
+            position: absolute;
+            color: #ffa502;
+            font-size: 24px;
+            font-weight: 900;
+            text-shadow: 0 0 8px rgba(255, 165, 2, 0.6);
+            pointer-events: none;
+            animation: floatAndFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 1000;
         }
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-50px); opacity: 0; }
+        @keyframes floatAndFade {
+            0% {
+                transform: translate(-50%, -50%) scale(0.6);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -120px) scale(1.1);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="header-menu">
         <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
         <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
         <button id="inv-open-btn" class="header-btn">Инвентарь 🎒</button>
         <button id="auth-header-btn" class="header-btn">firgelo 👤</button>
     </div>
-    <div class="main-wrapper" id="clicker-wrapper">
-        <div class="clicker-container">
+
+    <div class="main-wrapper">
+        <div class="clicker-container" id="click-zone">
             <h3>⚡ Биткоин Кликер:</h3>
             <div id="coin-wrapper">
                 <div id="clicker-coin"><span>₿</span></div>
@@ -63,23 +145,26 @@
         </div>
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
+
     <div class="bottom-nav">
         <a href="game.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
         <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
         <a href="clicker.html" class="nav-item active"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
     </div>
+
     <script>
         let coins = parseInt(localStorage.getItem('casino_coins')) || 100;
         let bitcoin = parseFloat(localStorage.getItem('crypto_btc')) || 0;
         let clickPower = parseInt(localStorage.getItem('click_power')) || 1;
         let btcPerSec = parseFloat(localStorage.getItem('btc_pps')) || 0;
+        
         const coinsCounter = document.getElementById('coins-counter');
         const btcBalance = document.getElementById('clicker-balance');
         const btcPpsText = document.getElementById('clicker-pps');
         const coin = document.getElementById('clicker-coin');
+        const clickZone = document.getElementById('click-zone');
         const buyClickBtn = document.getElementById('buy-click-power-btn');
         const buyGpuBtn = document.getElementById('buy-upgrade-btn');
-        const wrapper = document.getElementById('coin-wrapper');
 
         function updateUI() {
             coinsCounter.innerText = `💰 Монеты: ${Math.floor(coins)}`;
@@ -89,25 +174,33 @@
         }
         updateUI();
 
-        // Обработка клика со всплывающим текстом в месте тапа
+        // Функция создания вылетающих цифр строго в точке нажатия пальца
+        function createFloatingText(x, y) {
+            const floatText = document.createElement('div');
+            floatText.className = 'floating-number';
+            floatText.innerText = `+${clickPower}`;
+            
+            // Получаем координаты относительно контейнера игры
+            const rect = clickZone.getBoundingClientRect();
+            const relX = x - rect.left;
+            const relY = y - rect.top;
+            
+            floatText.style.left = `${relX}px`;
+            floatText.style.top = `${relY}px`;
+            
+            clickZone.appendChild(floatText);
+            
+            // Удаляем элемент после завершения анимации
+            setTimeout(() => floatText.remove(), 600);
+        }
+
+        // Обработка кликов
         coin.addEventListener('click', (e) => {
-            let reward = clickPower * 0.001;
-            bitcoin += reward;
+            bitcoin += clickPower;
             localStorage.setItem('crypto_btc', bitcoin);
             
-            // Создаем всплывающий текст
-            const floatText = document.createElement('div');
-            floatText.className = 'floating-click-text';
-            floatText.innerText = `+${reward.toFixed(3)} ₿`;
-            
-            // Позиционируем в месте клика
-            const rect = coin.getBoundingClientRect();
-            floatText.style.left = `${rect.width / 2}px`;
-            floatText.style.top = `10px`;
-            
-            wrapper.appendChild(floatText);
-            setTimeout(() => floatText.remove(), 600);
-            
+            // Берем координаты клика мыши или тача пальца
+            createFloatingText(e.clientX, e.clientY);
             updateUI();
         });
 
@@ -119,22 +212,28 @@
                 localStorage.setItem('casino_coins', coins);
                 localStorage.setItem('click_power', clickPower);
                 updateUI();
-                alert(`🎉 Успешно! Сила клика прокачана до Лвл. ${clickPower}`);
             } else { alert("❌ Недостаточно монет!"); }
         });
 
         buyGpuBtn.addEventListener('click', () => {
-            if (bitcoin >= 0.05) {
-                bitcoin -= 0.05;
-                btcPerSec += 0.002;
+            if (bitcoin >= 50) { // Сделали покупку видеокарты за 50 BTC по балансу
+                bitcoin -= 50;
+                btcPerSec += 1;
                 localStorage.setItem('crypto_btc', bitcoin);
                 localStorage.setItem('btc_pps', btcPerSec);
                 updateUI();
-                alert("🎮 Видеокарта успешно установлена! Автофарм запущен.");
-            } else { alert("❌ Нужно минимум 0.05 ₿!"); }
+                alert("🎮 Видеокарта успешно установлена! +1 ₿ в секунду.");
+            } else { alert("❌ Нужно минимум 50 ₿!"); }
         });
 
-        setInterval(() => { if (btcPerSec > 0) { bitcoin += btcPerSec; localStorage.setItem('crypto_btc', bitcoin); updateUI(); } }, 1000);
+        // Автофарм
+        setInterval(() => {
+            if (btcPerSec > 0) {
+                bitcoin += btcPerSec;
+                localStorage.setItem('crypto_btc', bitcoin);
+                updateUI();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
