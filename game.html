@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Колесо Фортуны</title>
-    
-    <!-- ПОДКЛЮЧЕНИЕ TELEGRAM WEB APP -->
     <script src="https://telegram.org"></script>
     <script>
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
     </script>
-
-    <!-- ВСТРОЕННЫЕ МОБИЛЬНЫЕ СТИЛИ С БЛОКИРОВКОЙ СИНЕВЫ -->
     <style>
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -21,134 +17,37 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            /* ПОЛНОСТЬЮ УБИРАЕМ СИНЮЮ ПОДСВЕТКУ И ВЫДЕЛЕНИЕ ТЕКСТА НА ВСЕЙ СТРАНИЦЕ */
             -webkit-tap-highlight-color: transparent !important;
             -webkit-user-select: none !important;
             user-select: none !important;
         }
-        .main-wrapper {
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
-            padding: 30px 15px 100px 15px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .roulette-container {
-            margin-top: 10px;
-            background-color: #222;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
+        .main-wrapper { width: 100%; max-width: 360px; margin: 0 auto; padding: 30px 15px 100px 15px; box-sizing: border-box; text-align: center; }
+        .roulette-container { margin-top: 10px; background-color: #222; padding: 15px; border-radius: 12px; border: 1px solid #333; }
         .roulette-container h3 { margin-top: 0; color: #f39c12; }
-        
-        .wheel-box {
-            width: 240px;
-            height: 240px;
-            margin: 0 auto 15px auto;
-            position: relative;
-        }
-        
-        #wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.2);
-            box-sizing: border-box;
-            display: block;
-            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        .wheel-arrow {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #ff4757;
-            font-size: 24px;
-            z-index: 10;
-        }
-        .wheel-center-cap {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(0,0,0,0.5);
-            z-index: 5;
-        }
-        .wheel-legend {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-            font-size: 11px;
-            text-align: left;
-            margin-bottom: 15px;
-            background: #111;
-            padding: 8px;
-            border-radius: 6px;
-        }
-        #spin-btn {
-            background-color: #2ed573;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(46, 213, 115, 0.3);
-            -webkit-tap-highlight-color: transparent !important;
-        }
+        .wheel-box { width: 240px; height: 240px; margin: 0 auto 15px auto; position: relative; }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.2); box-sizing: border-box; display: block; transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); }
+        .wheel-arrow { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); color: #ff4757; font-size: 24px; z-index: 10; }
+        .wheel-center-cap { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px rgba(0,0,0,0.5); z-index: 5; }
+        .wheel-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 11px; text-align: left; margin-bottom: 15px; background: #111; padding: 8px; border-radius: 6px; }
+        #spin-btn { background-color: #2ed573; color: white; border: none; width: 100%; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(46, 213, 115, 0.3); -webkit-tap-highlight-color: transparent !important; }
         #spin-btn:active { background-color: #26af5f; }
-        
         #c { font-size: 14px; color: #1dd1a1; margin: 15px 0 5px 0; font-weight: bold; min-height: 20px; }
         #jackpot-counter { font-size: 13px; color: #f1c40f; margin: 5px 0; }
         #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
         
-        /* ЧЕТЫРЕХКНОПОЧНЫЙ ТАБ-БАР */
-        .bottom-nav { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 60px; 
-            background-color: #1e1e24; 
-            border-top: 2px solid #2c3e50; 
-            display: flex; 
-            justify-content: space-around; 
-            align-items: center; 
-            z-index: 99999; 
-        }
-        .nav-item { 
-            text-decoration: none; 
-            color: #8892b0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            width: 25%; 
-            height: 100%; 
-            -webkit-tap-highlight-color: transparent !important;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #1e1e24; border-top: 2px solid #2c3e50; display: flex; justify-content: space-around; align-items: center; z-index: 99999; }
+        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25%; height: 100%; -webkit-tap-highlight-color: transparent !important; }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         .nav-text { font-size: 10px; font-weight: bold; }
         .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
     </style>
 </head>
 <body>
-
     <div class="main-wrapper">
         <div class="roulette-container">
             <h3>🎡 Колесо Фортуны:</h3>
             <div class="wheel-box">
                 <div class="wheel-arrow">▼</div>
-                
                 <svg id="wheel" viewBox="0 0 100 100">
                     <path d="M50,50 L50,0 A50,50 0 0,1 93.3,25 Z" fill="#ff4757" />
                     <path d="M50,50 L93.3,25 A50,50 0 0,1 93.3,75 Z" fill="#111111" />
@@ -157,10 +56,8 @@
                     <path d="M50,50 L6.7,75 A50,50 0 0,1 6.7,25 Z" fill="#1e90ff" />
                     <path d="M50,50 L6.7,25 A50,50 0 0,1 50,0 Z" fill="#2ed573" />
                 </svg>
-
                 <div class="wheel-center-cap"></div>
             </div>
-            
             <div class="wheel-legend">
                 <div><span style="color: #ff4757;">■</span> Красный: +10 💰</div>
                 <div><span style="color: #111;">■</span> Черный: БАНК 💀</div>
@@ -169,72 +66,49 @@
                 <div><span style="color: #1e90ff;">■</span> Синий: Скин 🎁</div>
                 <div><span style="color: #2ed573;">■</span> Зеленый: x2 🔥</div>
             </div>
-
             <button id="spin-btn">Крутить за 20 💰</button>
         </div>
-
         <p id="c">Нажми на кнопку, чтобы начать игру!</p>
         <p id="jackpot-counter">👑 Джекпотов: 0</p>
         <p id="coins-counter">💰 Монеты: --</p>
     </div>
 
-    <!-- Обновленный таб-бар с блокировкой синевы -->
     <div class="bottom-nav">
-        <a href="game.html" class="nav-item active"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
-        <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
-        <a href="clicker.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
-        <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
+        <a href="game.html?v=2" class="nav-item active"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="dice.html?v=2" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
+        <a href="clicker.html?v=2" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+        <a href="profile.html?v=2" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
     </div>
 
     <script>
         let coins = parseInt(localStorage.getItem('casino_coins')) || 100;
         let jacklots = parseInt(localStorage.getItem('casino_jackpots')) || 0;
-        
         const coinsCounter = document.getElementById('coins-counter');
         const jackpotCounter = document.getElementById('jackpot-counter');
         const resultText = document.getElementById('c');
         const wheel = document.getElementById('wheel');
         const spinBtn = document.getElementById('spin-btn');
-
-        function updateUI() {
-            coinsCounter.innerText = `💰 Монеты: ${coins}`;
-            jackpotCounter.innerText = `👑 Джекпотов: ${jacklots}`;
-        }
+        function updateUI() { coinsCounter.innerText = `💰 Монеты: ${coins}`; jackpotCounter.innerText = `👑 Джекпотов: ${jacklots}`; }
         updateUI();
-
-        let isSpinning = false;
-        let currentRotation = 0;
-
+        let isSpinning = false; let currentRotation = 0;
         spinBtn.addEventListener('click', () => {
             if (isSpinning) return;
-            if (coins < 20) {
-                resultText.innerText = "❌ Недостаточно монет!";
-                return;
-            }
-
-            coins -= 20;
-            isSpinning = true;
-            updateUI();
-
+            if (coins < 20) { resultText.innerText = "❌ Недостаточно монет!"; return; }
+            coins -= 20; isSpinning = true; updateUI();
             const randomDegrees = Math.floor(Math.random() * 360);
             currentRotation += 1440 + randomDegrees;
             wheel.style.transform = `rotate(${currentRotation}deg)`;
-
             setTimeout(() => {
                 isSpinning = false;
                 const actualDegrees = (360 - (currentRotation % 360)) % 360;
                 const sector = Math.floor(actualDegrees / 60);
-                
                 if (sector === 0) { coins += 10; resultText.innerText = "🔴 Красный! +10 💰"; }
                 else if (sector === 1) { coins = 0; resultText.innerText = "💀 Черный! ВЫ БАНКРОТ!"; }
                 else if (sector === 2) { coins += 50; jacklots++; resultText.innerText = "👑 Оранжевый! ДЖЕКПОТ +50 💎"; }
                 else if (sector === 3) { resultText.innerText = "⚪ Белый! Пусто 😢"; }
                 else if (sector === 4) { coins += 30; resultText.innerText = "🔵 Синий! +30 💰"; }
                 else { coins *= 2; resultText.innerText = "🔥 Зеленый! x2!"; }
-                
-                localStorage.setItem('casino_coins', coins);
-                localStorage.setItem('casino_jackpots', jacklots);
-                updateUI();
+                localStorage.setItem('casino_coins', coins); localStorage.setItem('casino_jackpots', jacklots); updateUI();
             }, 4000);
         });
     </script>
