@@ -245,5 +245,78 @@ body {
         white-space: nowrap !important;
     }
 }
+/* СТИЛИ ДЛЯ НИЖНЕЙ НАВИГАЦИИ (ТАБ-БАРА) */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: #1e1e24;
+    border-top: 2px solid #2c3e50;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 9999;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #8892b0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 33.33%;
+    height: 100%;
+    transition: color 0.2s ease;
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.nav-text {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* Стиль для активной (нажатой) вкладки */
+.nav-item.active {
+    color: #f39c12;
+    text-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
+}
+
+/* МОДИФИКАЦИЯ ДЛЯ УЗКИХ ЭКРАНОВ И ТЕЛЕГРАМА */
+@media (max-width: 1024px) {
+    /* Прячем вертикальные разделители */
+    .game-divider {
+        display: none !important;
+    }
+    
+    /* Делаем главный контейнер вертикальным */
+    .game-and-roulette {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding-bottom: 80px !important; /* Отступ снизу, чтобы меню не перекрывало кнопки */
+    }
+
+    /* Скрываем по умолчанию кубики и кликер (колесо открыто первым) */
+    .dice-container, .clicker-container {
+        display: none !important;
+    }
+    
+    /* Растягиваем активный контейнер на мобильном */
+    .roulette-container, .dice-container, .clicker-container {
+        width: 100% !important;
+        max-width: 360px !important;
+    }
+}
+
 
 
