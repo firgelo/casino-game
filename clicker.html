@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Биткоин Кликер</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- ПОДКЛЮЧЕНИЕ TELEGRAM WEB APP -->
+    <script src="https://telegram.org"></script>
+    <script>
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    </script>
+</head>
+<body>
+
+    <!-- Верхнее игровое меню управления -->
+    <div class="header-menu">
+        <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
+        <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
+        <button id="inv-open-btn" class="header-btn">Инвентарь 🎒</button>
+        <button id="auth-header-btn" class="header-btn">Войти 👤</button>
+    </div>
+
+    <!-- Главный контейнер -->
+    <div class="main-wrapper">
+        <div class="game-and-roulette">
+            
+            <!-- Правая колонка: ЗАЛИПАТЕЛЬНЫЙ КЛИКЕР -->
+            <div class="clicker-container" style="display: block !important;">
+                <h3>⚡ Биткоин Кликер:</h3>
+                <div id="coin-wrapper">
+                    <div id="clicker-coin">
+                        <span>₿</span>
+                        <div class="coin-glare"></div>
+                    </div>
+                </div>
+                
+                <div class="clicker-stats">
+                    <div id="clicker-balance">₿ Кэш: 0</div>
+                    <div id="clicker-pps">Доход/сек: +0</div>
+                </div>
+                
+                <button id="buy-click-power-btn">Клик +1 (1000 💰) [Лвл. 1]</button>
+                <button id="buy-upgrade-btn">Купить Видеокарту (50 ₿)</button>
+            </div>
+
+        </div>
+
+        <!-- Центральные элементы баланса -->
+        <p id="c">Нажми на кнопку, чтобы начать игру!</p>
+        <p id="jackpot-counter">👑 Джекпотов: 0</p>
+        <p id="coins-counter">💰 Монеты: --</p>
+    </div>
+
+    <!-- ВСПЛЫВАЮЩИЕ ОКНА -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-window">
+            <h2>Регистрация игрока 🎲</h2>
+            <p>Введите свое имя, чтобы сохранить прогресс:</p>
+            <input type="text" id="modal-username-input" placeholder="Ваш никнейм" maxlength="12">
+            <button id="modal-save-btn">Сохранить</button>
+        </div>
+    </div>
+
+    <div id="promo-modal" class="modal-overlay">
+        <div class="modal-window">
+            <span class="close-modal-x" id="promo-close-x">&times;</span>
+            <h2>🎁 Активация промокода</h2>
+            <p>Введите секретный код, чтобы получить подарок:</p>
+            <input type="text" id="modal-promo-input" placeholder="Введите промокод">
+            <button id="modal-promo-activate-btn">Активировать</button>
+        </div>
+    </div>
+
+    <div id="shop-modal" class="modal-overlay">
+        <div class="modal-window shop-window">
+            <span class="close-modal-x" id="shop-close-x">&times;</span>
+            <h2>🛒 Магазин скинов</h2>
+            <p>Покупайте цвета для вашей неоновой надписи:</p>
+            <div id="shop-items-list" class="modal-list-container"></div>
+        </div>
+    </div>
+
+    <div id="inv-modal" class="modal-overlay">
+        <div class="modal-window inv-window">
+            <span class="close-modal-x" id="inv-close-x">&times;</span>
+            <h2>🎒 Ваш инвентарь</h2>
+            <p>Выберите активный цвет для текста результатов:</p>
+            <div id="inv-items-list" class="modal-list-container"></div>
+        </div>
+    </div>
+
+    <!-- НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ (ТАБ-БАР) -->
+    <div class="bottom-nav">
+        <a href="fortune.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
+        <a href="clicker.html" class="nav-item active"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
