@@ -375,3 +375,27 @@ setInterval(() => {
 }, 1000);
 
 updateClickerInterface();
+// ЛОГИКА ПЕРЕКЛЮЧЕНИЯ НИЖНИХ ВКЛАДОК ДЛЯ МОБИЛЬНЫХ
+function switchTab(tabName, element) {
+    // Работает только на мобильных/узких экранах (менее 1025px)
+    if (window.innerWidth > 1024) return; 
+
+    // 1. Снимаем класс 'active' со всех кнопок навигации
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    // Добавляем класс 'active' на нажатую кнопку
+    element.classList.add('active');
+
+    // 2. Прячем все игровые блоки
+    document.querySelector('.roulette-container').style.display = 'none';
+    document.querySelector('.dice-container').style.display = 'none';
+    document.querySelector('.clicker-container').style.display = 'none';
+
+    // 3. Показываем только выбранную игру
+    if (tabName === 'fortune') {
+        document.querySelector('.roulette-container').style.display = 'block';
+    } else if (tabName === 'dice') {
+        document.querySelector('.dice-container').style.display = 'block';
+    } else if (tabName === 'clicker') {
+        document.querySelector('.clicker-container').style.display = 'block';
+    }
+}
