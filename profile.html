@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Игрока</title>
+    <script src="https://telegram.org"></script>
+    <script>
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #1a1a1a; color: #ffffff; margin: 0; padding: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .main-wrapper { width: 100%; max-width: 360px; margin: 0 auto; padding: 20px 15px 100px 15px; box-sizing: border-box; text-align: center; }
+        
+        .profile-card { background-color: #222; padding: 20px; border-radius: 16px; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .avatar { width: 70px; height: 70px; background-color: #34495e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 15px auto; border: 2px solid #f39c12; }
+        
+        #username-display { font-size: 20px; font-weight: bold; margin-bottom: 5px; color: #f39c12; }
+        .edit-name-btn { background: none; border: none; color: #3498db; font-size: 12px; cursor: pointer; text-decoration: underline; margin-bottom: 20px; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .stat-box { background-color: #111; padding: 12px; border-radius: 10px; text-align: left; }
+        .stat-title { font-size: 11px; color: #8892b0; font-weight: bold; }
+        .stat-value { font-size: 15px; font-weight: bold; margin-top: 4px; }
+        
+        .promo-section { background-color: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px solid #222; margin-top: 20px; text-align: left; }
+        .promo-section h4 { margin: 0 0 10px 0; color: #ff4757; font-size: 14px; }
+        .promo-input-group { display: flex; gap: 8px; }
+        .promo-input { flex: 1; background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; color: white; font-size: 14px; }
+        .promo-btn { background-color: #ff4757; color: white; border: none; padding: 0 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #1e1e24; border-top: 2px solid #2c3e50; display: flex; justify-content: space-around; align-items: center; z-index: 99999; }
+        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25%; height: 100%; }
+        .nav-icon { font-size: 18px; margin-bottom: 2px; }
+        .nav-text { font-size: 10px; font-weight: bold; }
+        .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="profile-card">
+            <div class="avatar">👤</div>
+            <div id="username-display">Игрок</div>
+            <button class="edit-name-btn" onclick="changeName()">Сменить никнейм</button>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-title">МОНЕТЫ</div>
+                    <div class="stat-value" id="prof-coins" style="color: #ffa502;">0 💰</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">БИТКОИНЫ</div>
+                    <div class="stat-value" id="prof-btc" style="color: #1dd1a1;">0.0000 ₿</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">ДЖЕКПОТЫ</div>
+                    <div class="stat-value" id="prof-jack" style="color: #f1c40f;">0 👑</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">СИЛА КЛИКА</div>
+                    <div class="stat-value" id="prof-power" style="color: #ff7f50;">Лвл. 1 💪</div>
+                </div>
+            </div>
+
+            <div class="promo-section">
+                <h4>🎁 Активация промокода</h4>
+                <div class="promo-input-group">
+                    <input type="text" id="promo-input" class="promo-input" placeholder="Введите код...">
+                    <button class="promo-btn" onclick="activatePromo()">ОК</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Обновленный таб-бар на 4 кнопки -->
+    <div class="bottom-nav">
+        <a href="game.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="dice.html" class="nav-item"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
+        <a href="clicker.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+        <a href="profile.html" class="nav-item active"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
+    </div>
+
+    <script>
+        // Загрузка общих данных из локальной памяти сайта
+        let coins = parseInt(localStorage.getItem('casino_coins')) || 100;
+        let bitcoin = parseFloat(localStorage.getItem('crypto_btc')) || 0;
+        let jackpots = parseInt(localStorage.getItem('casino_jackpots')) || 0;
+        let clickPower = parseInt(localStorage.getItem('click_power')) || 1;
+        let username = localStorage.getItem('casino_username') || "Игрок";
+
+        function updateProfileUI() {
+            document.getElementById('username-display').innerText = username;
+            document.getElementById('prof-coins').innerText = `${Math.floor(coins)} 💰`;
+            document.getElementById('prof-btc').innerText = `${bitcoin.toFixed(4)} ₿`;
+            document.getElementById('prof-jack').innerText = `${jackpots} 👑`;
+            document.getElementById('prof-power').innerText = `Лвл. ${clickPower} 💪`;
+        }
+        updateProfileUI();
+
+        function changeName() {
+            let newName = prompt("Введите ваш новый никнейм:", username);
+            if (newName && newName.trim().length > 0) {
+                username = newName.trim().substring(0, 12);
+                localStorage.setItem('casino_username', username);
+                updateProfileUI();
+            }
+        }
+
+        function activatePromo() {
+            const input = document.getElementById('promo-input');
+            const code = input.value.trim().toUpperCase();
+            if (code === "BONUS") {
+                coins += 500;
+                localStorage.setItem('casino_coins', coins);
+                updateProfileUI();
+                alert("🎉 Код активирован! Получено +500 монет!");
+                input.value = "";
+            } else {
+                alert("❌ Неверный или устаревший промокод!");
+            }
+        }
+    </script>
+</body>
+</html>
