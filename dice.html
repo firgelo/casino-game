@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Кубики</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- ПОДКЛЮЧЕНИЕ TELEGRAM WEB APP -->
+    <script src="https://telegram.org"></script>
+    <script>
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    </script>
+</head>
+<body>
+
+    <!-- Верхнее игровое меню управления -->
+    <div class="header-menu">
+        <button id="promo-open-btn" class="header-btn">Промокод 🎁</button>
+        <button id="shop-open-btn" class="header-btn">Магазин 🛒</button>
+        <button id="inv-open-btn" class="header-btn">Инвентарь 🎒</button>
+        <button id="auth-header-btn" class="header-btn">Войти 👤</button>
+    </div>
+
+    <!-- Главный контейнер -->
+    <div class="main-wrapper">
+        <div class="game-and-roulette">
+            
+            <!-- Центральная колонка: ИГРА В КУБИКИ -->
+            <div class="dice-container" style="display: block !important;">
+                <h3>🎲 3D Кубики против Бота:</h3>
+                
+                <div class="game-container-vertical">
+                    <div class="dice-player-wrapper">
+                        <div class="dice-name player">Ты: —</div>
+                        <div class="scene">
+                            <div id="player-dice-3d" class="cube">
+                                <div class="cube-face front">⚀</div>
+                                <div class="cube-face back">⚅</div>
+                                <div class="cube-face right">⚃</div>
+                                <div class="cube-face left">⚂</div>
+                                <div class="cube-face top">⚁</div>
+                                <div class="cube-face bottom">⚄</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dice-bot-wrapper">
+                        <div class="dice-name bot">Бот: —</div>
+                        <div class="scene">
+                            <div id="bot-dice-3d" class="cube">
+                                <div class="cube-face front">⚀</div>
+                                <div class="cube-face back">⚅</div>
+                                <div class="cube-face right">⚃</div>
+                                <div class="cube-face left">⚂</div>
+                                <div class="cube-face top">⚁</div>
+                                <div class="cube-face bottom">⚄</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="turbo-wrapper" id="turbo-toggle">
+                    <div class="turbo-checkbox"></div>
+                    <span class="turbo-text">Быстрый прокрут</span>
+                </div>
+
+                <!-- КНОПКИ АВТОМАТОВ (Покупка + Просмотр) -->
+                <button id="slots-open-btn" class="header-btn" style="width: 100%; margin-top: auto; margin-bottom: 8px; border-radius: 8px;">Все автоматы 🎰</button>
+                <button id="buy-auto-farm-btn">Купить Автомат (150 ₿)</button>
+
+                <button id="кнопка">Бросить кубики 🎲</button>
+            </div>
+
+        </div>
+
+        <!-- Центральные элементы баланса -->
+        <p id="c">Нажми на кнопку, чтобы начать игру!</p>
+        <p id="jackpot-counter">👑 Джекпотов: 0</p>
+        <p id="coins-counter">💰 Монеты: --</p>
+    </div>
+
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО: СПИСОК АВТОМАТОВ И СОРТИРОВКА -->
+    <div id="slots-modal" class="modal-overlay">
+        <div class="modal-window slots-window">
+            <span class="close-modal-x" id="slots-close-x">&times;</span>
+            <h2>🎰 Ваши автоматы казино</h2>
+            <p id="slots-total-fps" style="color: #1dd1a1; font-weight: bold; margin-bottom: 10px;">Всего качают: +0 💰/сек</p>
+            <button id="slots-sort-btn" style="background-color: #3742fa; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-bottom: 15px; font-weight: bold;">Сортировка: По доходу ↓</button>
+            <div id="slots-items-list" class="modal-list-container"></div>
+        </div>
+    </div>
+
+    <!-- ВСПЛЫВАЮЩИЕ ОКНА -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-window">
+            <h2>Регистрация игрока 🎲</h2>
+            <p>Введите свое имя, чтобы сохранить прогресс:</p>
+            <input type="text" id="modal-username-input" placeholder="Ваш никнейм" maxlength="12">
+            <button id="modal-save-btn">Сохранить</button>
+        </div>
+    </div>
+
+    <div id="promo-modal" class="modal-overlay">
+        <div class="modal-window">
+            <span class="close-modal-x" id="promo-close-x">&times;</span>
+            <h2>🎁 Активация промокода</h2>
+            <p>Введите секретный код, чтобы получить подарок:</p>
+            <input type="text" id="modal-promo-input" placeholder="Введите промокод">
+            <button id="modal-promo-activate-btn">Активировать</button>
+        </div>
+    </div>
+
+    <div id="shop-modal" class="modal-overlay">
+        <div class="modal-window shop-window">
+            <span class="close-modal-x" id="shop-close-x">&times;</span>
+            <h2>🛒 Магазин скинов</h2>
+            <p>Покупайте цвета для вашей неоновой надписи:</p>
+            <div id="shop-items-list" class="modal-list-container"></div>
+        </div>
+    </div>
+
+    <div id="inv-modal" class="modal-overlay">
+        <div class="modal-window inv-window">
+            <span class="close-modal-x" id="inv-close-x">&times;</span>
+            <h2>🎒 Ваш инвентарь</h2>
+            <p>Выберите активный цвет для текста результатов:</p>
+            <div id="inv-items-list" class="modal-list-container"></div>
+        </div>
+    </div>
+
+    <!-- НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ (ТАБ-БАР) -->
+    <div class="bottom-nav">
+        <a href="fortune.html" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
+        <a href="dice.html" class="nav-item active"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
+        <a href="clicker.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
