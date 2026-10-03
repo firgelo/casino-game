@@ -196,42 +196,54 @@ body {
 .modal-list-container { display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; }
 .modal-item-btn { background-color: #1e1e24; color: white; border: 1px solid #57606f; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .modal-item-btn.active { background-color: #2ed573 !important; border-color: #2ed573 !important; }
-/* АДАПТАЦИЯ ИГРЫ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ */
-@media (max-width: 768px) {
-    /* Перестраиваем три колонки в одну вертикальную линию */
+/* ПРИНУДИТЕЛЬНАЯ МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 1024px) {
+    .main-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Раскладываем 3 колонки строго друг под друга */
     .game-and-roulette {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px; /* Отступы между играми */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 40px !important;
     }
 
-    /* Убираем вертикальные разделители, так как игры теперь идут сверху вниз */
+    /* Полностью прячем разделители */
     .game-divider {
-        display: none;
+        display: none !important;
     }
 
-    /* Делаем контейнеры игр шире, чтобы они занимали весь экран смартфона */
+    /* Фиксируем ширину игровых блоков, чтобы они не сжимались */
     .roulette-container, .dice-container, .clicker-container {
-        width: 100%;
-        max-width: 340px;
-        box-sizing: border-box;
+        width: 100% !important;
+        max-width: 360px !important;
+        min-width: 320px !important;
+        display: block !important;
+        box-sizing: border-box !important;
     }
 
-    /* Исправляем верхнее меню, чтобы кнопки не налезали друг на друга */
+    /* Перестраиваем верхнее меню в сетку 2 на 2 */
     .header-menu {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Кнопки встанут в 2 ряда по 2 штуки */
-        gap: 8px;
-        width: 100%;
-        max-width: 340px;
-        margin: 0 auto 20px auto;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 25px auto !important;
     }
 
     .header-btn {
-        width: 100%;
-        font-size: 14px;
-        padding: 8px 4px;
+        width: 100% !important;
+        font-size: 14px !important;
+        padding: 10px 5px !important;
+        white-space: nowrap !important;
     }
 }
+
 
