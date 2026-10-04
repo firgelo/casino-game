@@ -2,131 +2,1054 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Кубики против Бота</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>MEGA CASINO — Кубики</title>
+
     <script src="https://telegram.org"></script>
     <script>
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    </script>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: #1a1a1a; 
-            color: #ffffff; 
-            margin: 0; 
-            padding: 0; 
-            overflow-x: hidden; 
-            -webkit-tap-highlight-color: transparent !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
+        if (window.Telegram?.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
         }
-        .main-wrapper { width: 100%; max-width: 360px; margin: 0 auto; padding: 30px 15px 100px 15px; box-sizing: border-box; text-align: center; }
-        .dice-container { background-color: #222; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-top: 10px; }
-        .dice-container h3 { margin-top: 0; color: #3742fa; }
-        .game-container-vertical { display: flex; justify-content: space-around; margin: 20px 0; }
-        .dice-name { font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-        .scene { width: 60px; height: 60px; perspective: 300px; margin: 0 auto; }
-        .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.5s ease-out; font-size: 40px; line-height: 60px; }
-        .cube-face { position: absolute; width: 60px; height: 60px; background: #fff; color: #000; border: 2px solid #ccc; border-radius: 10px; text-align: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); backface-visibility: hidden; }
-        .front  { transform: rotateY(  0deg) translateZ(30px); }
-        .back   { transform: rotateY(180deg) translateZ(30px); }
-        .right  { transform: rotateY( 90deg) translateZ(30px); }
-        .left   { transform: rotateY(-90deg) translateZ(30px); }
-        .top    { transform: rotateX( 90deg) translateZ(30px); }
-        .bottom { transform: rotateX(-90deg) translateZ(30px); }
-        #кнопка { background-color: #34495e; color: white; border: 2px solid #3742fa; width: 100%; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; -webkit-tap-highlight-color: transparent !important; }
-        #кнопка:active { background-color: #2c3e50; }
-        #c { font-size: 14px; color: #1dd1a1; margin: 15px 0 5px 0; font-weight: bold; min-height: 20px; }
-        #jackpot-counter { font-size: 13px; color: #f1c40f; margin: 5px 0; }
-        #coins-counter { font-size: 15px; color: #ffa502; font-weight: bold; margin: 5px 0; }
-        
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #1e1e24; border-top: 2px solid #2c3e50; display: flex; justify-content: space-around; align-items: center; z-index: 99999; }
-        .nav-item { text-decoration: none; color: #8892b0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25%; height: 100%; -webkit-tap-highlight-color: transparent !important; }
-        .nav-icon { font-size: 18px; margin-bottom: 2px; }
-        .nav-text { font-size: 10px; font-weight: bold; }
-        .nav-item.active { color: #f39c12; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    </script>
+
+    <style>
+
+        :root {
+            --bg: #070b14;
+            --bg2: #11182a;
+            --card: rgba(20,29,49,.84);
+            --line: rgba(255,255,255,.08);
+
+            --text: #f7f8ff;
+            --muted: #8994ad;
+
+            --blue: #4ca9ff;
+            --purple: #9275ff;
+            --gold: #ffd15b;
+
+            --nav: 72px;
+        }
+
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            color: var(--text);
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(89,105,255,.28),
+                    transparent 38%
+                ),
+                radial-gradient(
+                    circle at 100% 50%,
+                    rgba(72,170,255,.10),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    160deg,
+                    var(--bg2),
+                    var(--bg)
+                );
+
+            overflow-x: hidden;
+
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+
+        .app {
+            width: min(100%,460px);
+            min-height: 100vh;
+
+            margin: auto;
+
+            padding:
+                max(16px,env(safe-area-inset-top))
+                14px
+                calc(var(--nav) + 25px);
+        }
+
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(76,169,255,.22),
+                    rgba(146,117,255,.08)
+                );
+
+            border: 1px solid rgba(76,169,255,.2);
+
+            font-size: 22px;
+        }
+
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+
+        .brand-subtitle {
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+
+        .balance {
+            padding: 8px 10px;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(255,255,255,.07);
+
+            text-align: center;
+        }
+
+
+        .balance-label {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+
+        .balance-value {
+            color: var(--gold);
+
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+
+        .game-card {
+            position: relative;
+
+            padding: 18px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(25,35,59,.89),
+                    rgba(9,15,27,.94)
+                );
+
+            border: 1px solid var(--line);
+
+            box-shadow:
+                0 25px 80px rgba(0,0,0,.36),
+                inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+
+        .game-title {
+            font-size: 20px;
+            font-weight: 900;
+
+            margin-bottom: 4px;
+        }
+
+
+        .game-subtitle {
+            margin-bottom: 24px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        .players {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .player-card {
+            padding: 13px 8px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,.035);
+
+            border: 1px solid rgba(255,255,255,.06);
+
+            text-align: center;
+        }
+
+
+        .player-name {
+            margin-bottom: 10px;
+
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+
+        .player-value {
+            margin-top: 10px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+
+        .vs {
+            color: #77839b;
+
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+
+        .scene {
+            width: 80px;
+            height: 80px;
+
+            margin: auto;
+
+            perspective: 350px;
+        }
+
+
+        .cube {
+            position: relative;
+
+            width: 80px;
+            height: 80px;
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 1.6s
+                cubic-bezier(.18,.89,.32,1.2);
+        }
+
+
+        .cube-face {
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #dfe5f0
+                );
+
+            color: #162033;
+
+            border: 2px solid rgba(255,255,255,.8);
+
+            box-shadow:
+                inset 0 0 15px rgba(0,0,0,.08),
+                0 8px 20px rgba(0,0,0,.2);
+
+            font-size: 47px;
+
+            backface-visibility: hidden;
+        }
+
+
+        .front {
+            transform:
+                rotateY(0deg)
+                translateZ(40px);
+        }
+
+        .back {
+            transform:
+                rotateY(180deg)
+                translateZ(40px);
+        }
+
+        .right {
+            transform:
+                rotateY(90deg)
+                translateZ(40px);
+        }
+
+        .left {
+            transform:
+                rotateY(-90deg)
+                translateZ(40px);
+        }
+
+        .top {
+            transform:
+                rotateX(90deg)
+                translateZ(40px);
+        }
+
+        .bottom {
+            transform:
+                rotateX(-90deg)
+                translateZ(40px);
+        }
+
+
+        #кнопка {
+            width: 100%;
+
+            min-height: 57px;
+
+            border: none;
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6ec6ff,
+                    #4b8dff
+                );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: 900;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 30px rgba(70,145,255,.25);
+
+            transition:
+                transform .13s ease,
+                filter .18s ease;
+        }
+
+
+        #кнопка:active {
+            transform: scale(.985);
+        }
+
+
+        #кнопка:disabled {
+            filter: brightness(.65);
+            cursor: not-allowed;
+        }
+
+
+        #c {
+            min-height: 47px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 15px;
+
+            padding: 10px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,.035);
+
+            border: 1px solid rgba(255,255,255,.05);
+
+            color: #dfe5f7;
+
+            text-align: center;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        #c.win {
+            color: #8effc7;
+
+            background: rgba(52,229,138,.08);
+            border-color: rgba(52,229,138,.15);
+        }
+
+
+        #c.lose {
+            color: #ff9caf;
+
+            background: rgba(255,79,112,.08);
+            border-color: rgba(255,79,112,.15);
+        }
+
+
+        .bottom-nav {
+            position: fixed;
+
+            z-index: 100;
+
+            left: 50%;
+            bottom: 0;
+
+            transform: translateX(-50%);
+
+            width: min(100%,460px);
+
+            height: var(--nav);
+
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+
+            padding: 6px 7px;
+
+            background: rgba(8,12,22,.86);
+
+            border-top: 1px solid rgba(255,255,255,.07);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 3px;
+
+            color: #74809a;
+
+            text-decoration: none;
+
+            border-radius: 14px;
+        }
+
+
+        .nav-item.active {
+            color: #6fc4ff;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(76,169,255,.12),
+                    rgba(76,169,255,.035)
+                );
+        }
+
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+
+        .nav-text {
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+
+        @media(max-width:380px) {
+
+            .scene,
+            .cube {
+                width: 68px;
+                height: 68px;
+            }
+
+            .cube-face {
+                width: 68px;
+                height: 68px;
+
+                font-size: 40px;
+            }
+
+            .front,
+            .back {
+                translate: 0 0 34px;
+            }
+
+            .front {
+                transform:
+                    rotateY(0deg)
+                    translateZ(34px);
+            }
+
+            .back {
+                transform:
+                    rotateY(180deg)
+                    translateZ(34px);
+            }
+
+            .right {
+                transform:
+                    rotateY(90deg)
+                    translateZ(34px);
+            }
+
+            .left {
+                transform:
+                    rotateY(-90deg)
+                    translateZ(34px);
+            }
+
+            .top {
+                transform:
+                    rotateX(90deg)
+                    translateZ(34px);
+            }
+
+            .bottom {
+                transform:
+                    rotateX(-90deg)
+                    translateZ(34px);
+            }
+        }
+
     </style>
 </head>
+
 <body>
-    <div class="main-wrapper">
-        <div class="dice-container">
-            <h3>🎲 3D Кубики против Бота:</h3>
-            <div class="game-container-vertical">
-                <div class="dice-player-wrapper">
-                    <div class="dice-name player">Ты: —</div>
-                    <div class="scene">
-                        <div id="player-dice-3d" class="cube">
-                            <div class="cube-face front">⚀</div>
-                            <div class="cube-face back">⚅</div>
-                            <div class="cube-face right">⚃</div>
-                            <div class="cube-face left">⚂</div>
-                            <div class="cube-face top">⚁</div>
-                            <div class="cube-face bottom">⚄</div>
-                        </div>
-                    </div>
+
+<div class="app">
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🎲
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    MEGA CASINO
                 </div>
-                <div class="dice-bot-wrapper">
-                    <div class="dice-name bot">Бот: —</div>
-                    <div class="scene">
-                        <div id="bot-dice-3d" class="cube">
-                            <div class="cube-face front">⚀</div>
-                            <div class="cube-face back">⚅</div>
-                            <div class="cube-face right">⚃</div>
-                            <div class="cube-face left">⚂</div>
-                            <div class="cube-face top">⚁</div>
-                            <div class="cube-face bottom">⚄</div>
-                        </div>
-                    </div>
+
+                <div class="brand-subtitle">
+                    Dice Arena
                 </div>
             </div>
-            <button id="кнопка">Бросить кубики 🎲</button>
+
         </div>
-        <p id="c">Нажми на кнопку, чтобы начать игру!</p>
-        <p id="jackpot-counter">👑 Джекпотов: 0</p>
-        <p id="coins-counter">💰 Монеты: --</p>
-    </div>
 
-    <div class="bottom-nav">
-        <a href="game.html?v=2" class="nav-item"><span class="nav-icon">🎡</span><span class="nav-text">Колесо</span></a>
-        <a href="dice.html?v=2" class="nav-item active"><span class="nav-icon">🎲</span><span class="nav-text">Кубики</span></a>
-        <a href="clicker.html?v=2" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-text">Биткоин</span></a>
-        <a href="profile.html?v=2" class="nav-item"><span class="nav-icon">👤</span><span class="nav-text">Профиль</span></a>
-    </div>
 
-    <script>
-        let coins = parseInt(localStorage.getItem('casino_coins')) || 100;
-        let jackpots = parseInt(localStorage.getItem('casino_jackpots')) || 0;
-        const coinsCounter = document.getElementById('coins-counter');
-        const jackpotCounter = document.getElementById('jackpot-counter');
-        const resultText = document.getElementById('c');
-        const diceBtn = document.getElementById('кнопка');
-        function updateUI() { coinsCounter.innerText = `💰 Монеты: ${coins}`; jackpotCounter.innerText = `👑 Джекпотов: ${jackpots}`; }
-        updateUI();
-        let isRolling = false;
-        const playerCube = document.getElementById('player-dice-3d');
-        const botCube = document.getElementById('bot-dice-3d');
-        const faces = [{x: 0, y: 0}, {x: -90, y: 0}, {x: 0, y: 90}, {x: 0, y: -90}, {x: 90, y: 0}, {x: 180, y: 0}];
-        diceBtn.addEventListener('click', () => {
-            if (isRolling) return;
-            if (coins < 10) { resultText.innerText = "❌ Нужно минимум 10 монет!"; return; }
-            coins -= 10; isRolling = true; resultText.innerText = "🎲 Кубики брошены..."; updateUI();
-            const pResult = Math.floor(Math.random() * 6) + 1;
-            const bResult = Math.floor(Math.random() * 6) + 1;
-            playerCube.style.transform = `rotateX(${faces[pResult-1].x + 720}deg) rotateY(${faces[pResult-1].y + 720}deg)`;
-            botCube.style.transform = `rotateX(${faces[bResult-1].x + 720}deg) rotateY(${faces[bResult-1].y + 720}deg)`;
-            setTimeout(() => {
-                isRolling = false;
-                playerCube.style.transform = `rotateX(${faces[pResult-1].x}deg) rotateY(${faces[pResult-1].y}deg)`;
-                botCube.style.transform = `rotateX(${faces[bResult-1].x}deg) rotateY(${faces[bResult-1].y}deg)`;
-                document.querySelector('.dice-name.player').innerText = `Ты: ${pResult}`;
-                document.querySelector('.dice-name.bot').innerText = `Бот: ${bResult}`;
-                if (pResult > bResult) { coins += 25; resultText.innerText = `🎉 Вы выиграли! (+25 💰)`; }
-                else if (pResult < bResult) { resultText.innerText = `💀 Бот победил!`; }
-                else { coins += 10; resultText.innerText = `👔 Ничья!`; }
-                localStorage.setItem('casino_coins', coins); updateUI();
-            }, 1500);
-        });
-    </script>
+        <div class="balance">
+
+            <span class="balance-label">
+                Монеты
+            </span>
+
+            <span
+                class="balance-value"
+                id="coins-counter"
+            >
+                0 💰
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <main class="game-card">
+
+        <div class="game-title">
+            🎲 Кубики против Бота
+        </div>
+
+        <div class="game-subtitle">
+            Победи бота и забери +25 монет
+        </div>
+
+
+        <div class="players">
+
+            <div class="player-card">
+
+                <div
+                    class="player-name"
+                    id="player-name"
+                >
+                    ТЫ
+                </div>
+
+                <div class="scene">
+
+                    <div
+                        id="player-dice-3d"
+                        class="cube"
+                    >
+
+                        <div class="cube-face front">
+                            ⚀
+                        </div>
+
+                        <div class="cube-face back">
+                            ⚅
+                        </div>
+
+                        <div class="cube-face right">
+                            ⚃
+                        </div>
+
+                        <div class="cube-face left">
+                            ⚂
+                        </div>
+
+                        <div class="cube-face top">
+                            ⚁
+                        </div>
+
+                        <div class="cube-face bottom">
+                            ⚄
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="player-value"
+                    id="player-result"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="vs">
+                VS
+            </div>
+
+
+            <div class="player-card">
+
+                <div
+                    class="player-name"
+                    id="bot-name"
+                >
+                    БОТ
+                </div>
+
+                <div class="scene">
+
+                    <div
+                        id="bot-dice-3d"
+                        class="cube"
+                    >
+
+                        <div class="cube-face front">
+                            ⚀
+                        </div>
+
+                        <div class="cube-face back">
+                            ⚅
+                        </div>
+
+                        <div class="cube-face right">
+                            ⚃
+                        </div>
+
+                        <div class="cube-face left">
+                            ⚂
+                        </div>
+
+                        <div class="cube-face top">
+                            ⚁
+                        </div>
+
+                        <div class="cube-face bottom">
+                            ⚄
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="player-value"
+                    id="bot-result"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button id="кнопка">
+            🎲 Бросить кубики за 10 💰
+        </button>
+
+
+        <div id="c">
+            Нажми на кнопку, чтобы начать игру!
+        </div>
+
+    </main>
+
+</div>
+
+
+<nav class="bottom-nav">
+
+    <a
+        href="game.html?v=2"
+        class="nav-item"
+    >
+        <span class="nav-icon">🎡</span>
+        <span class="nav-text">Колесо</span>
+    </a>
+
+
+    <a
+        href="dice.html?v=2"
+        class="nav-item active"
+    >
+        <span class="nav-icon">🎲</span>
+        <span class="nav-text">Кубики</span>
+    </a>
+
+
+    <a
+        href="clicker.html?v=2"
+        class="nav-item"
+    >
+        <span class="nav-icon">⚡</span>
+        <span class="nav-text">Биткоин</span>
+    </a>
+
+
+    <a
+        href="profile.html?v=2"
+        class="nav-item"
+    >
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Профиль</span>
+    </a>
+
+</nav>
+
+
+<script>
+
+    let coins =
+        parseInt(
+            localStorage.getItem("casino_coins"),
+            10
+        ) || 100;
+
+
+    let isRolling = false;
+
+
+    const coinsCounter =
+        document.getElementById("coins-counter");
+
+    const button =
+        document.getElementById("кнопка");
+
+    const resultText =
+        document.getElementById("c");
+
+
+    const playerCube =
+        document.getElementById(
+            "player-dice-3d"
+        );
+
+    const botCube =
+        document.getElementById(
+            "bot-dice-3d"
+        );
+
+
+    const playerResult =
+        document.getElementById(
+            "player-result"
+        );
+
+    const botResult =
+        document.getElementById(
+            "bot-result"
+        );
+
+
+    const playerName =
+        document.getElementById(
+            "player-name"
+        );
+
+    const botName =
+        document.getElementById(
+            "bot-name"
+        );
+
+
+    const faces = [
+
+        {
+            x: 0,
+            y: 0
+        },
+
+        {
+            x: -90,
+            y: 0
+        },
+
+        {
+            x: 0,
+            y: 90
+        },
+
+        {
+            x: 0,
+            y: -90
+        },
+
+        {
+            x: 90,
+            y: 0
+        },
+
+        {
+            x: 180,
+            y: 0
+        }
+
+    ];
+
+
+    function updateUI() {
+
+        coinsCounter.textContent =
+            `${coins.toLocaleString("ru-RU")} 💰`;
+
+        button.disabled =
+            isRolling || coins < 10;
+
+    }
+
+
+    updateUI();
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            if (isRolling) {
+                return;
+            }
+
+
+            if (coins < 10) {
+
+                resultText.textContent =
+                    "❌ Нужно минимум 10 монет!";
+
+                resultText.className =
+                    "lose";
+
+                return;
+            }
+
+
+            coins -= 10;
+
+            isRolling = true;
+
+            updateUI();
+
+
+            resultText.className = "";
+
+            resultText.textContent =
+                "🎲 Кубики летят...";
+
+
+            const player =
+                Math.floor(
+                    Math.random() * 6
+                ) + 1;
+
+            const bot =
+                Math.floor(
+                    Math.random() * 6
+                ) + 1;
+
+
+            playerCube.style.transform =
+                `
+                rotateX(${faces[player - 1].x + 720}deg)
+                rotateY(${faces[player - 1].y + 720}deg)
+                `;
+
+
+            botCube.style.transform =
+                `
+                rotateX(${faces[bot - 1].x + 720}deg)
+                rotateY(${faces[bot - 1].y + 720}deg)
+                `;
+
+
+            setTimeout(
+                () => {
+
+                    isRolling = false;
+
+
+                    playerCube.style.transform =
+                        `
+                        rotateX(${faces[player - 1].x}deg)
+                        rotateY(${faces[player - 1].y}deg)
+                        `;
+
+
+                    botCube.style.transform =
+                        `
+                        rotateX(${faces[bot - 1].x}deg)
+                        rotateY(${faces[bot - 1].y}deg)
+                        `;
+
+
+                    playerName.textContent =
+                        "ТЫ";
+
+
+                    botName.textContent =
+                        "БОТ";
+
+
+                    playerResult.textContent =
+                        `Выпало: ${player}`;
+
+
+                    botResult.textContent =
+                        `Выпало: ${bot}`;
+
+
+                    if (player > bot) {
+
+                        coins += 25;
+
+                        resultText.className =
+                            "win";
+
+                        resultText.textContent =
+                            "🎉 Победа! +25 💰";
+
+                    }
+
+                    else if (player < bot) {
+
+                        resultText.className =
+                            "lose";
+
+                        resultText.textContent =
+                            "💀 Бот победил!";
+
+                    }
+
+                    else {
+
+                        coins += 10;
+
+                        resultText.className =
+                            "win";
+
+                        resultText.textContent =
+                            "🤝 Ничья! Ставка возвращена";
+
+                    }
+
+
+                    localStorage.setItem(
+                        "casino_coins",
+                        coins
+                    );
+
+
+                    updateUI();
+
+                },
+                1600
+            );
+
+        }
+    );
+
+</script>
+
 </body>
 </html>
