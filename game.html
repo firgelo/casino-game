@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>MEGA CASINO — Колесо</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <meta name="theme-color" content="#080c16">
+
+    <title>MEGA CASINO — Колесо Фортуны</title>
 
     <script src="https://telegram.org"></script>
+
     <script>
         if (window.Telegram?.WebApp) {
             Telegram.WebApp.ready();
@@ -15,11 +23,11 @@
     </script>
 
     <style>
+
         :root {
             --bg: #070b14;
             --bg2: #11182a;
-            --card: rgba(20, 29, 49, .84);
-            --line: rgba(255,255,255,.08);
+
             --text: #f7f8ff;
             --muted: #8994ad;
 
@@ -29,22 +37,26 @@
             --red: #ff4f70;
             --blue: #4aa9ff;
 
-            --nav-height: 72px;
+            --nav: 72px;
         }
+
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
+
         html {
             background: var(--bg);
             min-height: 100%;
         }
 
+
         body {
             margin: 0;
             min-height: 100vh;
+
             color: var(--text);
 
             font-family:
@@ -79,22 +91,32 @@
                 );
 
             overflow-x: hidden;
+
             -webkit-user-select: none;
             user-select: none;
         }
 
+
         body::before,
         body::after {
             content: "";
+
             position: fixed;
+
             width: 180px;
             height: 180px;
+
             border-radius: 50%;
+
             filter: blur(75px);
+
             pointer-events: none;
-            opacity: .16;
+
+            opacity: .14;
+
             z-index: 0;
         }
+
 
         body::before {
             background: #6757ff;
@@ -102,22 +124,26 @@
             top: 20%;
         }
 
+
         body::after {
             background: #00d68f;
             right: -100px;
             bottom: 20%;
         }
 
+
         button,
         a {
             font: inherit;
         }
+
 
         .app {
             position: relative;
             z-index: 1;
 
             width: min(100%, 460px);
+
             min-height: 100vh;
 
             margin: 0 auto;
@@ -125,10 +151,13 @@
             padding:
                 max(16px, env(safe-area-inset-top))
                 14px
-                calc(var(--nav-height) + 25px + env(safe-area-inset-bottom));
+                calc(var(--nav) + 28px + env(safe-area-inset-bottom));
         }
 
-        /* TOP */
+
+        /* =========================
+           TOP BAR
+        ========================= */
 
         .topbar {
             display: flex;
@@ -136,20 +165,25 @@
             justify-content: space-between;
 
             gap: 10px;
+
             margin-bottom: 14px;
         }
+
 
         .brand {
             display: flex;
             align-items: center;
+
             gap: 10px;
 
             min-width: 0;
         }
 
+
         .brand-icon {
             width: 42px;
             height: 42px;
+
             flex: 0 0 42px;
 
             display: grid;
@@ -164,7 +198,9 @@
                     rgba(255,139,28,.06)
                 );
 
-            border: 1px solid rgba(255,208,90,.2);
+            border:
+                1px solid
+                rgba(255,208,90,.2);
 
             box-shadow:
                 inset 0 1px 0 rgba(255,255,255,.1),
@@ -173,11 +209,14 @@
             font-size: 21px;
         }
 
+
         .brand-title {
             font-size: 15px;
             font-weight: 900;
+
             letter-spacing: .4px;
         }
+
 
         .brand-subtitle {
             margin-top: 2px;
@@ -188,13 +227,16 @@
             font-weight: 800;
 
             letter-spacing: .6px;
+
             text-transform: uppercase;
         }
+
 
         .balances {
             display: flex;
             gap: 6px;
         }
+
 
         .balance {
             min-width: 72px;
@@ -203,14 +245,20 @@
 
             border-radius: 14px;
 
-            background: rgba(255,255,255,.045);
-            border: 1px solid rgba(255,255,255,.07);
+            background:
+                rgba(255,255,255,.045);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
 
             text-align: center;
 
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,.03);
+                inset 0 1px 0
+                rgba(255,255,255,.03);
         }
+
 
         .balance-label {
             display: block;
@@ -223,6 +271,7 @@
             text-transform: uppercase;
         }
 
+
         .balance-value {
             display: block;
 
@@ -232,15 +281,20 @@
             font-weight: 900;
         }
 
+
         .coins .balance-value {
             color: var(--gold);
         }
+
 
         .jackpot .balance-value {
             color: #ffe477;
         }
 
-        /* CARD */
+
+        /* =========================
+           MAIN CARD
+        ========================= */
 
         .game-card {
             position: relative;
@@ -258,14 +312,19 @@
                     rgba(9,15,27,.94)
                 );
 
-            border: 1px solid var(--line);
+            border:
+                1px solid
+                rgba(255,255,255,.08);
 
             box-shadow:
                 0 25px 80px rgba(0,0,0,.36),
-                inset 0 1px 0 rgba(255,255,255,.055);
+                inset 0 1px 0
+                rgba(255,255,255,.055);
 
-            transition: transform .35s ease;
+            transition:
+                transform .35s ease;
         }
+
 
         .game-card::before {
             content: "";
@@ -286,8 +345,10 @@
                 );
 
             filter: blur(12px);
+
             pointer-events: none;
         }
+
 
         .game-heading {
             position: relative;
@@ -297,13 +358,18 @@
             justify-content: space-between;
 
             gap: 8px;
+
             margin-bottom: 10px;
         }
+
 
         .game-title {
             font-size: 19px;
             font-weight: 900;
+
+            letter-spacing: -.4px;
         }
+
 
         .game-title span {
             display: block;
@@ -315,6 +381,7 @@
             font-size: 9px;
             font-weight: 700;
         }
+
 
         .bet-badge {
             padding: 7px 10px;
@@ -330,7 +397,9 @@
                     rgba(255,139,35,.06)
                 );
 
-            border: 1px solid rgba(255,200,74,.18);
+            border:
+                1px solid
+                rgba(255,200,74,.18);
 
             font-size: 9px;
             font-weight: 900;
@@ -338,7 +407,10 @@
             white-space: nowrap;
         }
 
-        /* WHEEL */
+
+        /* =========================
+           WHEEL
+        ========================= */
 
         .wheel-area {
             position: relative;
@@ -349,10 +421,12 @@
             padding: 14px 0 18px;
         }
 
+
         .wheel-aura {
             position: absolute;
 
-            width: min(78vw,330px);
+            width: min(78vw, 330px);
+
             aspect-ratio: 1;
 
             border-radius: 50%;
@@ -366,18 +440,23 @@
                 );
 
             filter: blur(8px);
+
             transform: scale(1.12);
         }
+
 
         .wheel-shell {
             position: relative;
 
-            width: min(76vw,320px);
+            width: min(76vw, 320px);
+
             aspect-ratio: 1;
 
             display: grid;
+
             place-items: center;
         }
+
 
         .wheel-shadow {
             position: absolute;
@@ -390,13 +469,16 @@
             background: #000;
 
             filter: blur(27px);
+
             opacity: .56;
 
             transform: translateY(12px);
         }
 
+
         #wheel {
             position: relative;
+
             z-index: 2;
 
             width: 100%;
@@ -411,13 +493,22 @@
             will-change: transform;
 
             filter:
-                drop-shadow(0 12px 21px rgba(0,0,0,.4))
-                drop-shadow(0 0 15px rgba(255,192,59,.12));
+                drop-shadow(
+                    0 12px 21px
+                    rgba(0,0,0,.4)
+                )
+                drop-shadow(
+                    0 0 15px
+                    rgba(255,192,59,.12)
+                );
         }
+
 
         .wheel-ring {
             position: absolute;
+
             inset: 0;
+
             z-index: 3;
 
             border-radius: 50%;
@@ -425,24 +516,36 @@
             pointer-events: none;
 
             box-shadow:
-                inset 0 0 0 5px rgba(255,255,255,.16),
-                inset 0 0 0 9px rgba(0,0,0,.28),
-                0 0 0 2px rgba(255,255,255,.05);
+
+                inset
+                0 0 0 5px
+                rgba(255,255,255,.16),
+
+                inset
+                0 0 0 9px
+                rgba(0,0,0,.28),
+
+                0 0 0 2px
+                rgba(255,255,255,.05);
         }
+
 
         .wheel-center {
             position: absolute;
+
             z-index: 10;
 
             left: 50%;
             top: 50%;
 
-            transform: translate(-50%,-50%);
+            transform:
+                translate(-50%, -50%);
 
             width: 56px;
             height: 56px;
 
             display: grid;
+
             place-items: center;
 
             border-radius: 50%;
@@ -455,39 +558,63 @@
                     #d67b0b
                 );
 
-            border: 4px solid #fff1b7;
+            border:
+                4px solid
+                #fff1b7;
 
             color: #684100;
 
             box-shadow:
-                0 0 0 5px rgba(0,0,0,.28),
-                0 0 27px rgba(255,187,39,.42);
+                0 0 0 5px
+                rgba(0,0,0,.28),
+
+                0 0 27px
+                rgba(255,187,39,.42);
 
             font-size: 20px;
         }
 
+
         .pointer {
             position: absolute;
+
             z-index: 20;
 
             left: 50%;
             top: -2px;
 
-            transform: translateX(-50%);
+            transform:
+                translateX(-50%);
 
             width: 0;
             height: 0;
 
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 29px solid #fff;
+            border-left:
+                12px solid transparent;
+
+            border-right:
+                12px solid transparent;
+
+            border-top:
+                29px solid #fff;
 
             filter:
-                drop-shadow(0 0 7px rgba(255,255,255,.6))
-                drop-shadow(0 4px 5px rgba(0,0,0,.5));
+                drop-shadow(
+                    0 0 7px
+                    rgba(255,255,255,.6)
+                )
+                drop-shadow(
+                    0 4px 5px
+                    rgba(0,0,0,.5)
+                );
 
-            animation: pointerPulse 2.2s ease-in-out infinite;
+            animation:
+                pointerPulse
+                2.2s
+                ease-in-out
+                infinite;
         }
+
 
         .pointer::after {
             content: "";
@@ -504,63 +631,118 @@
 
             background: #ff4d70;
 
-            box-shadow: 0 0 12px rgba(255,77,112,.85);
+            box-shadow:
+                0 0 12px
+                rgba(255,77,112,.85);
         }
 
+
         @keyframes pointerPulse {
-            0%,100% {
-                transform: translateX(-50%) scale(1);
+
+            0%, 100% {
+                transform:
+                    translateX(-50%)
+                    scale(1);
             }
 
             50% {
-                transform: translateX(-50%) scale(1.05);
+                transform:
+                    translateX(-50%)
+                    scale(1.05);
             }
+
         }
 
-        /* LEGEND */
+
+        /* =========================
+           WHEEL TEXT
+        ========================= */
+
+        .wheel-text {
+            font-family:
+                Arial,
+                sans-serif;
+
+            font-weight: 900;
+
+            text-anchor: middle;
+
+            dominant-baseline: middle;
+
+            paint-order: stroke fill;
+
+            stroke:
+                rgba(0,0,0,.16);
+
+            stroke-width:
+                .45px;
+        }
+
+
+        /* =========================
+           LEGEND
+        ========================= */
 
         .legend {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 7px;
 
             margin-bottom: 13px;
         }
 
+
         .legend-item {
             min-height: 42px;
 
             display: flex;
+
             align-items: center;
 
             gap: 8px;
 
-            padding: 7px 9px;
+            padding:
+                7px 9px;
 
             border-radius: 14px;
 
-            background: rgba(255,255,255,.033);
-            border: 1px solid rgba(255,255,255,.055);
+            background:
+                rgba(255,255,255,.033);
+
+            border:
+                1px solid
+                rgba(255,255,255,.055);
         }
+
 
         .legend-dot {
             width: 12px;
             height: 12px;
+
             flex: 0 0 12px;
 
             border-radius: 50%;
 
             box-shadow:
-                0 0 0 3px rgba(255,255,255,.035),
-                0 0 10px currentColor;
+                0 0 0 3px
+                rgba(255,255,255,.035),
+
+                0 0 10px
+                currentColor;
         }
+
 
         .legend-name {
             display: block;
 
             font-size: 10px;
+
             font-weight: 900;
         }
+
 
         .legend-prize {
             display: block;
@@ -570,21 +752,27 @@
             color: var(--muted);
 
             font-size: 8px;
+
             font-weight: 700;
         }
 
-        /* RESULT */
+
+        /* =========================
+           RESULT
+        ========================= */
 
         #c {
             min-height: 46px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             margin-bottom: 10px;
 
-            padding: 10px 12px;
+            padding:
+                10px 12px;
 
             border-radius: 16px;
 
@@ -595,17 +783,21 @@
                     rgba(255,255,255,.018)
                 );
 
-            border: 1px solid rgba(255,255,255,.06);
+            border:
+                1px solid
+                rgba(255,255,255,.06);
 
             color: #dfe5f7;
 
             text-align: center;
 
             font-size: 11px;
+
             font-weight: 800;
 
             transition: .22s ease;
         }
+
 
         #c.win {
             color: #fff2a8;
@@ -617,10 +809,20 @@
                     rgba(255,153,31,.07)
                 );
 
-            border-color: rgba(255,207,83,.22);
+            border-color:
+                rgba(255,207,83,.22);
 
-            animation: resultPop .58s cubic-bezier(.18,.89,.32,1.28);
+            animation:
+                resultPop
+                .58s
+                cubic-bezier(
+                    .18,
+                    .89,
+                    .32,
+                    1.28
+                );
         }
+
 
         #c.lose {
             color: #ffafb9;
@@ -632,34 +834,69 @@
                     rgba(255,75,100,.03)
                 );
 
-            border-color: rgba(255,75,100,.17);
+            border-color:
+                rgba(255,75,100,.17);
 
-            animation: resultShake .4s ease;
+            animation:
+                resultShake
+                .4s
+                ease;
         }
+
 
         @keyframes resultPop {
-            0% { transform: scale(.96); }
-            70% { transform: scale(1.025); }
-            100% { transform: scale(1); }
+
+            0% {
+                transform:
+                    scale(.96);
+            }
+
+            70% {
+                transform:
+                    scale(1.025);
+            }
+
+            100% {
+                transform:
+                    scale(1);
+            }
         }
+
 
         @keyframes resultShake {
-            0%,100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            75% { transform: translateX(4px); }
+
+            0%, 100% {
+                transform:
+                    translateX(0);
+            }
+
+            25% {
+                transform:
+                    translateX(-4px);
+            }
+
+            75% {
+                transform:
+                    translateX(4px);
+            }
         }
 
-        /* BUTTON */
+
+        /* =========================
+           SPIN BUTTON
+        ========================= */
 
         #spin-btn {
             position: relative;
 
             width: 100%;
+
             min-height: 58px;
 
             overflow: hidden;
 
             border: none;
+
             border-radius: 18px;
 
             cursor: pointer;
@@ -675,17 +912,24 @@
             color: #3c2300;
 
             font-size: 15px;
+
             font-weight: 950;
 
             box-shadow:
-                0 10px 28px rgba(255,165,43,.21),
-                inset 0 1px 0 rgba(255,255,255,.58);
+
+                0 10px 28px
+                rgba(255,165,43,.21),
+
+                inset
+                0 1px 0
+                rgba(255,255,255,.58);
 
             transition:
                 transform .13s ease,
                 filter .18s ease,
                 box-shadow .18s ease;
         }
+
 
         #spin-btn::before {
             content: "";
@@ -698,27 +942,41 @@
             top: -40%;
             left: -130px;
 
-            transform: rotate(20deg);
+            transform:
+                rotate(20deg);
 
-            background: rgba(255,255,255,.23);
+            background:
+                rgba(255,255,255,.23);
 
-            filter: blur(7px);
+            filter:
+                blur(7px);
 
-            transition: left .6s ease;
+            transition:
+                left .6s ease;
         }
+
 
         #spin-btn:hover::before {
-            left: calc(100% + 45px);
+            left:
+                calc(100% + 45px);
         }
+
 
         #spin-btn:active {
-            transform: translateY(2px) scale(.985);
+            transform:
+                translateY(2px)
+                scale(.985);
         }
 
+
         #spin-btn:disabled {
-            cursor: not-allowed;
-            filter: brightness(.7);
+            cursor:
+                not-allowed;
+
+            filter:
+                brightness(.7);
         }
+
 
         .hint {
             margin-top: 10px;
@@ -726,49 +984,75 @@
             color: var(--muted);
 
             font-size: 8px;
+
             font-weight: 700;
 
             text-align: center;
         }
 
-        /* NAV */
+
+        /* =========================
+           NAVIGATION
+        ========================= */
 
         .bottom-nav {
             position: fixed;
+
             z-index: 1000;
 
             left: 50%;
             bottom: 0;
 
-            transform: translateX(-50%);
+            transform:
+                translateX(-50%);
 
-            width: min(100%,460px);
-            height: var(--nav-height);
+            width:
+                min(100%,460px);
+
+            height:
+                var(--nav);
 
             display: grid;
-            grid-template-columns: repeat(4,1fr);
+
+            grid-template-columns:
+                repeat(4,1fr);
 
             padding:
                 6px
                 7px
-                calc(7px + env(safe-area-inset-bottom));
+                calc(
+                    7px +
+                    env(safe-area-inset-bottom)
+                );
 
-            background: rgba(8,12,22,.84);
+            background:
+                rgba(8,12,22,.86);
 
-            border-top: 1px solid rgba(255,255,255,.07);
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter:
+                blur(20px);
 
-            box-shadow: 0 -15px 40px rgba(0,0,0,.3);
+            -webkit-backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                0 -15px 40px
+                rgba(0,0,0,.3);
         }
+
 
         .nav-item {
             position: relative;
 
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             justify-content: center;
 
             gap: 3px;
@@ -779,6 +1063,7 @@
 
             text-decoration: none;
         }
+
 
         .nav-item.active {
             color: var(--gold);
@@ -791,6 +1076,7 @@
                 );
         }
 
+
         .nav-item.active::before {
             content: "";
 
@@ -802,35 +1088,48 @@
             width: 24px;
             height: 3px;
 
-            transform: translateX(-50%);
+            transform:
+                translateX(-50%);
 
             border-radius: 99px;
 
-            background: var(--gold);
+            background:
+                var(--gold);
 
-            box-shadow: 0 0 12px rgba(255,209,92,.7);
+            box-shadow:
+                0 0 12px
+                rgba(255,209,92,.7);
         }
+
 
         .nav-icon {
             font-size: 20px;
         }
 
+
         .nav-text {
             font-size: 8px;
+
             font-weight: 900;
         }
 
-        /* CONFETTI */
+
+        /* =========================
+           CONFETTI
+        ========================= */
 
         #confetti {
             position: fixed;
+
             inset: 0;
 
             z-index: 9999;
 
             pointer-events: none;
+
             overflow: hidden;
         }
+
 
         .confetti-piece {
             position: absolute;
@@ -845,55 +1144,158 @@
             animation:
                 confettiFall
                 var(--duration)
-                cubic-bezier(.18,.7,.25,1)
+                cubic-bezier(
+                    .18,
+                    .7,
+                    .25,
+                    1
+                )
                 forwards;
         }
 
+
         @keyframes confettiFall {
+
             0% {
                 opacity: 1;
+
                 transform:
-                    translate3d(0,-20px,0)
+                    translate3d(
+                        0,
+                        -20px,
+                        0
+                    )
                     rotate(0deg);
             }
 
+
             100% {
                 opacity: 0;
+
                 transform:
-                    translate3d(var(--x),105vh,0)
-                    rotate(var(--rotation));
+                    translate3d(
+                        var(--x),
+                        105vh,
+                        0
+                    )
+                    rotate(
+                        var(--rotation)
+                    );
             }
         }
 
+
         .win-card {
-            animation: winCard .75s ease;
+            animation:
+                winCard
+                .75s
+                ease;
         }
+
 
         .lose-card {
-            animation: loseCard .42s ease;
+            animation:
+                loseCard
+                .42s
+                ease;
         }
+
 
         @keyframes winCard {
-            0%,100% { transform: scale(1); }
-            35% { transform: scale(1.012); }
-            65% { transform: scale(1.005); }
+
+            0%, 100% {
+                transform:
+                    scale(1);
+            }
+
+            35% {
+                transform:
+                    scale(1.012);
+            }
+
+            65% {
+                transform:
+                    scale(1.005);
+            }
         }
 
+
         @keyframes loseCard {
-            0%,100% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
-            60% { transform: translateX(-3px); }
-            80% { transform: translateX(3px); }
+
+            0%,100% {
+                transform:
+                    translateX(0);
+            }
+
+            20% {
+                transform:
+                    translateX(-5px);
+            }
+
+            40% {
+                transform:
+                    translateX(5px);
+            }
+
+            60% {
+                transform:
+                    translateX(-3px);
+            }
+
+            80% {
+                transform:
+                    translateX(3px);
+            }
         }
+
+
+        @media (max-width: 380px) {
+
+            .app {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+
+            .game-card {
+                padding: 13px;
+            }
+
+
+            .balance {
+                min-width: 68px;
+            }
+
+
+            .balance-value {
+                font-size: 11px;
+            }
+
+
+            .wheel-shell {
+                width: min(78vw,300px);
+            }
+
+
+            .wheel-center {
+                width: 50px;
+                height: 50px;
+            }
+
+        }
+
     </style>
 </head>
 
+
 <body>
+
 
 <div class="app">
 
+
     <header class="topbar">
+
 
         <div class="brand">
 
@@ -901,24 +1303,32 @@
                 🎰
             </div>
 
+
             <div>
+
                 <div class="brand-title">
                     MEGA CASINO
                 </div>
 
+
                 <div class="brand-subtitle">
                     Wheel of Fortune
                 </div>
+
             </div>
 
         </div>
 
+
         <div class="balances">
 
+
             <div class="balance coins">
+
                 <span class="balance-label">
                     Монеты
                 </span>
+
 
                 <span
                     class="balance-value"
@@ -926,12 +1336,16 @@
                 >
                     0 💰
                 </span>
+
             </div>
 
+
             <div class="balance jackpot">
+
                 <span class="balance-label">
                     Джекпоты
                 </span>
+
 
                 <span
                     class="balance-value"
@@ -939,48 +1353,68 @@
                 >
                     0 👑
                 </span>
+
             </div>
 
+
         </div>
+
 
     </header>
 
 
-    <main class="game-card" id="game-card">
+    <main
+        class="game-card"
+        id="game-card"
+    >
+
 
         <div class="game-heading">
 
+
             <div class="game-title">
+
                 🎡 Колесо Фортуны
+
 
                 <span>
                     Испытай удачу и сорви джекпот
                 </span>
+
             </div>
+
 
             <div class="bet-badge">
                 СТАВКА 20 💰
             </div>
+
 
         </div>
 
 
         <div class="wheel-area">
 
+
             <div class="wheel-aura"></div>
+
 
             <div class="wheel-shell">
 
+
                 <div class="wheel-shadow"></div>
 
+
                 <div class="pointer"></div>
+
 
                 <svg
                     id="wheel"
                     viewBox="0 0 100 100"
                 >
 
+
                     <defs>
+
 
                         <linearGradient
                             id="redGradient"
@@ -989,6 +1423,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#ff697a"
@@ -998,6 +1433,7 @@
                                 offset="100%"
                                 stop-color="#e83254"
                             />
+
                         </linearGradient>
 
 
@@ -1008,6 +1444,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#2d3649"
@@ -1017,6 +1454,7 @@
                                 offset="100%"
                                 stop-color="#080c13"
                             />
+
                         </linearGradient>
 
 
@@ -1027,6 +1465,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#ffd35d"
@@ -1036,6 +1475,7 @@
                                 offset="100%"
                                 stop-color="#f17620"
                             />
+
                         </linearGradient>
 
 
@@ -1046,6 +1486,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#ffffff"
@@ -1055,6 +1496,7 @@
                                 offset="100%"
                                 stop-color="#d9dfeb"
                             />
+
                         </linearGradient>
 
 
@@ -1065,6 +1507,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#65c3ff"
@@ -1074,6 +1517,7 @@
                                 offset="100%"
                                 stop-color="#287fe4"
                             />
+
                         </linearGradient>
 
 
@@ -1084,6 +1528,7 @@
                             x2="100%"
                             y2="100%"
                         >
+
                             <stop
                                 offset="0%"
                                 stop-color="#5af2a6"
@@ -1093,35 +1538,54 @@
                                 offset="100%"
                                 stop-color="#1aa96c"
                             />
+
                         </linearGradient>
+
 
                     </defs>
 
+
+                    <!-- RED -->
 
                     <path
                         d="M50,50 L50,0 A50,50 0 0,1 93.3,25 Z"
                         fill="url(#redGradient)"
                     />
 
+
+                    <!-- BLACK -->
+
                     <path
                         d="M50,50 L93.3,25 A50,50 0 0,1 93.3,75 Z"
                         fill="url(#blackGradient)"
                     />
+
+
+                    <!-- ORANGE -->
 
                     <path
                         d="M50,50 L93.3,75 A50,50 0 0,1 50,100 Z"
                         fill="url(#orangeGradient)"
                     />
 
+
+                    <!-- WHITE -->
+
                     <path
                         d="M50,50 L50,100 A50,50 0 0,1 6.7,75 Z"
                         fill="url(#whiteGradient)"
                     />
 
+
+                    <!-- BLUE -->
+
                     <path
                         d="M50,50 L6.7,75 A50,50 0 0,1 6.7,25 Z"
                         fill="url(#blueGradient)"
                     />
+
+
+                    <!-- GREEN -->
 
                     <path
                         d="M50,50 L6.7,25 A50,50 0 0,1 50,0 Z"
@@ -1129,39 +1593,87 @@
                     />
 
 
-                    <g
-                        font-family="Arial"
-                        font-size="5.1"
-                        font-weight="900"
-                        text-anchor="middle"
-                    >
+                    <!-- TEXT -->
 
-                        <text x="50" y="16" fill="white">
+                    <g class="wheel-text">
+
+
+                        <!-- RED -->
+
+                        <text
+                            x="66.5"
+                            y="21.2"
+                            font-size="5.2"
+                            fill="#ffffff"
+                        >
                             +10
                         </text>
 
-                        <text x="76" y="31" fill="white">
+
+                        <!-- BLACK -->
+
+                        <text
+                            x="82.8"
+                            y="50"
+                            font-size="5.0"
+                            fill="#ffffff"
+                        >
                             БАНК
                         </text>
 
-                        <text x="76" y="69" fill="white">
+
+                        <!-- ORANGE -->
+
+                        <text
+                            x="66.5"
+                            y="78.8"
+                            font-size="5.2"
+                            fill="#ffffff"
+                        >
                             +50
                         </text>
 
-                        <text x="50" y="84" fill="#5d6574">
+
+                        <!-- WHITE -->
+
+                        <text
+                            x="33.5"
+                            y="78.8"
+                            font-size="5.0"
+                            fill="#596272"
+                        >
                             ПУСТО
                         </text>
 
-                        <text x="24" y="69" fill="white">
+
+                        <!-- BLUE -->
+
+                        <text
+                            x="17.2"
+                            y="50"
+                            font-size="5.2"
+                            fill="#ffffff"
+                        >
                             +30
                         </text>
 
-                        <text x="24" y="31" fill="white">
+
+                        <!-- GREEN -->
+
+                        <text
+                            x="33.5"
+                            y="21.2"
+                            font-size="5.2"
+                            fill="#ffffff"
+                        >
                             x2
                         </text>
 
+
                     </g>
 
+
+                    <!-- RINGS -->
 
                     <circle
                         cx="50"
@@ -1172,28 +1684,49 @@
                         stroke-width="1"
                     />
 
+
+                    <circle
+                        cx="50"
+                        cy="50"
+                        r="39"
+                        fill="none"
+                        stroke="rgba(0,0,0,.12)"
+                        stroke-width=".7"
+                    />
+
+
                 </svg>
 
 
                 <div class="wheel-ring"></div>
 
+
                 <div class="wheel-center">
                     ⭐
                 </div>
 
+
             </div>
+
         </div>
 
 
         <div class="legend">
 
+
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#ff4f70;color:#ff4f70"
+                    style="
+                        background:#ff4f70;
+                        color:#ff4f70;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Красный
                     </span>
@@ -1201,17 +1734,25 @@
                     <span class="legend-prize">
                         +10 💰
                     </span>
+
                 </div>
+
             </div>
 
 
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#141a26;color:#677286"
+                    style="
+                        background:#141a26;
+                        color:#677286;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Чёрный
                     </span>
@@ -1219,17 +1760,25 @@
                     <span class="legend-prize">
                         БАНКРОТ 💀
                     </span>
+
                 </div>
+
             </div>
 
 
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#ff9f2f;color:#ff9f2f"
+                    style="
+                        background:#ff9f2f;
+                        color:#ff9f2f;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Оранжевый
                     </span>
@@ -1237,17 +1786,25 @@
                     <span class="legend-prize">
                         +50 💎
                     </span>
+
                 </div>
+
             </div>
 
 
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#f6f7fb;color:#f6f7fb"
+                    style="
+                        background:#f6f7fb;
+                        color:#f6f7fb;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Белый
                     </span>
@@ -1255,17 +1812,25 @@
                     <span class="legend-prize">
                         Пусто 😢
                     </span>
+
                 </div>
+
             </div>
 
 
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#4ca9ff;color:#4ca9ff"
+                    style="
+                        background:#4ca9ff;
+                        color:#4ca9ff;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Синий
                     </span>
@@ -1273,17 +1838,25 @@
                     <span class="legend-prize">
                         +30 💰
                     </span>
+
                 </div>
+
             </div>
 
 
             <div class="legend-item">
+
                 <div
                     class="legend-dot"
-                    style="background:#33e58a;color:#33e58a"
+                    style="
+                        background:#33e58a;
+                        color:#33e58a;
+                    "
                 ></div>
 
+
                 <div>
+
                     <span class="legend-name">
                         Зелёный
                     </span>
@@ -1291,8 +1864,11 @@
                     <span class="legend-prize">
                         x2 🔥
                     </span>
+
                 </div>
+
             </div>
+
 
         </div>
 
@@ -1311,7 +1887,9 @@
             Всё внутри игры виртуальное. Прогресс сохраняется автоматически.
         </div>
 
+
     </main>
+
 
 </div>
 
@@ -1321,12 +1899,20 @@
 
 <nav class="bottom-nav">
 
+
     <a
         href="game.html?v=2"
         class="nav-item active"
     >
-        <span class="nav-icon">🎡</span>
-        <span class="nav-text">Колесо</span>
+
+        <span class="nav-icon">
+            🎡
+        </span>
+
+        <span class="nav-text">
+            Колесо
+        </span>
+
     </a>
 
 
@@ -1334,8 +1920,15 @@
         href="dice.html?v=2"
         class="nav-item"
     >
-        <span class="nav-icon">🎲</span>
-        <span class="nav-text">Кубики</span>
+
+        <span class="nav-icon">
+            🎲
+        </span>
+
+        <span class="nav-text">
+            Кубики
+        </span>
+
     </a>
 
 
@@ -1343,8 +1936,15 @@
         href="clicker.html?v=2"
         class="nav-item"
     >
-        <span class="nav-icon">⚡</span>
-        <span class="nav-text">Биткоин</span>
+
+        <span class="nav-icon">
+            ⚡
+        </span>
+
+        <span class="nav-text">
+            Биткоин
+        </span>
+
     </a>
 
 
@@ -1352,9 +1952,17 @@
         href="profile.html?v=2"
         class="nav-item"
     >
-        <span class="nav-icon">👤</span>
-        <span class="nav-text">Профиль</span>
+
+        <span class="nav-icon">
+            👤
+        </span>
+
+        <span class="nav-text">
+            Профиль
+        </span>
+
     </a>
+
 
 </nav>
 
@@ -1363,15 +1971,21 @@
 
     const BET = 20;
 
+
     let coins =
         parseInt(
-            localStorage.getItem("casino_coins"),
+            localStorage.getItem(
+                "casino_coins"
+            ),
             10
         );
 
+
     let jackpots =
         parseInt(
-            localStorage.getItem("casino_jackpots"),
+            localStorage.getItem(
+                "casino_jackpots"
+            ),
             10
         );
 
@@ -1380,31 +1994,52 @@
         coins = 100;
     }
 
+
     if (!Number.isFinite(jackpots)) {
         jackpots = 0;
     }
 
 
     const coinsCounter =
-        document.getElementById("coins-counter");
+        document.getElementById(
+            "coins-counter"
+        );
+
 
     const jackpotCounter =
-        document.getElementById("jackpot-counter");
+        document.getElementById(
+            "jackpot-counter"
+        );
+
 
     const resultText =
-        document.getElementById("c");
+        document.getElementById(
+            "c"
+        );
+
 
     const wheel =
-        document.getElementById("wheel");
+        document.getElementById(
+            "wheel"
+        );
+
 
     const spinBtn =
-        document.getElementById("spin-btn");
+        document.getElementById(
+            "spin-btn"
+        );
+
 
     const gameCard =
-        document.getElementById("game-card");
+        document.getElementById(
+            "game-card"
+        );
+
 
     const confetti =
-        document.getElementById("confetti");
+        document.getElementById(
+            "confetti"
+        );
 
 
     let isSpinning = false;
@@ -1417,31 +2052,38 @@
         coinsCounter.textContent =
             `${coins.toLocaleString("ru-RU")} 💰`;
 
+
         jackpotCounter.textContent =
             `${jackpots.toLocaleString("ru-RU")} 👑`;
 
+
         spinBtn.disabled =
-            isSpinning || coins < BET;
+            isSpinning ||
+            coins < BET;
 
     }
 
 
-    function save() {
+    function saveGame() {
 
         localStorage.setItem(
             "casino_coins",
-            coins
+            String(coins)
         );
+
 
         localStorage.setItem(
             "casino_jackpots",
-            jackpots
+            String(jackpots)
         );
 
     }
 
 
-    function result(text, type = "") {
+    function showResult(
+        text,
+        type = ""
+    ) {
 
         resultText.className = "";
 
@@ -1454,14 +2096,18 @@
     }
 
 
-    function effect(type) {
+    function showEffect(
+        type
+    ) {
 
         gameCard.classList.remove(
             "win-card",
             "lose-card"
         );
 
+
         void gameCard.offsetWidth;
+
 
         gameCard.classList.add(
             type === "win"
@@ -1472,9 +2118,10 @@
     }
 
 
-    function createConfetti() {
+    function showConfetti() {
 
         confetti.innerHTML = "";
+
 
         const colors = [
             "#ffd34e",
@@ -1486,13 +2133,21 @@
         ];
 
 
-        for (let i = 0; i < 55; i++) {
+        for (
+            let i = 0;
+            i < 50;
+            i++
+        ) {
 
             const piece =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             piece.className =
                 "confetti-piece";
+
 
             piece.style.background =
                 colors[
@@ -1502,31 +2157,42 @@
                     )
                 ];
 
+
             piece.style.left =
                 `${Math.random() * 100}%`;
 
+
             piece.style.setProperty(
                 "--x",
-                `${Math.random() * 300 - 150}px`
+                `${Math.random() * 280 - 140}px`
             );
+
 
             piece.style.setProperty(
                 "--rotation",
-                `${Math.random() * 1000 - 500}deg`
+                `${Math.random() * 900 - 450}deg`
             );
+
 
             piece.style.setProperty(
                 "--duration",
-                `${.9 + Math.random() * 1.2}s`
+                `${.9 + Math.random() * 1.1}s`
             );
 
-            confetti.appendChild(piece);
+
+            confetti.appendChild(
+                piece
+            );
+
         }
 
 
-        setTimeout(() => {
-            confetti.innerHTML = "";
-        }, 2300);
+        setTimeout(
+            () => {
+                confetti.innerHTML = "";
+            },
+            2200
+        );
 
     }
 
@@ -1545,14 +2211,15 @@
 
             if (coins < BET) {
 
-                result(
+                showResult(
                     "❌ Недостаточно монет!",
                     "lose"
                 );
 
-                effect("lose");
+                showEffect("lose");
 
                 return;
+
             }
 
 
@@ -1562,7 +2229,8 @@
 
             updateUI();
 
-            result(
+
+            showResult(
                 "🎡 Колесо набирает скорость..."
             );
 
@@ -1571,6 +2239,7 @@
                 Math.floor(
                     Math.random() * 360
                 );
+
 
             const rounds =
                 6 +
@@ -1623,13 +2292,14 @@
 
                         coins += 10;
 
-                        result(
+                        showResult(
                             "🔴 Красный! +10 💰",
                             "win"
                         );
 
-                        effect("win");
-                        createConfetti();
+                        showEffect("win");
+
+                        showConfetti();
 
                     }
 
@@ -1638,12 +2308,12 @@
 
                         coins = 0;
 
-                        result(
+                        showResult(
                             "💀 Чёрный! БАНКРОТ...",
                             "lose"
                         );
 
-                        effect("lose");
+                        showEffect("lose");
 
                     }
 
@@ -1654,20 +2324,21 @@
 
                         jackpots += 1;
 
-                        result(
+                        showResult(
                             "👑 ДЖЕКПОТ! +50 💎",
                             "win"
                         );
 
-                        effect("win");
-                        createConfetti();
+                        showEffect("win");
+
+                        showConfetti();
 
                     }
 
 
                     else if (sector === 3) {
 
-                        result(
+                        showResult(
                             "⚪ Белый! Пусто 😢"
                         );
 
@@ -1678,13 +2349,14 @@
 
                         coins += 30;
 
-                        result(
+                        showResult(
                             "🔵 Синий! +30 💰",
                             "win"
                         );
 
-                        effect("win");
-                        createConfetti();
+                        showEffect("win");
+
+                        showConfetti();
 
                     }
 
@@ -1693,22 +2365,24 @@
 
                         coins *= 2;
 
-                        result(
+                        showResult(
                             `🔥 Зелёный! Баланс x2 — ${coins.toLocaleString("ru-RU")} 💰`,
                             "win"
                         );
 
-                        effect("win");
-                        createConfetti();
+                        showEffect("win");
+
+                        showConfetti();
 
                     }
 
 
-                    save();
+                    saveGame();
 
                     updateUI();
 
                 },
+
                 duration + 70
             );
 
@@ -1716,6 +2390,7 @@
     );
 
 </script>
+
 
 </body>
 </html>
