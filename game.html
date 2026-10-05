@@ -2,1317 +2,49 @@
 <html lang="ru">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
-    <meta name="theme-color" content="#080c16">
+    <meta
+        name="theme-color"
+        content="#050505"
+    >
 
-    <title>MEGA CASINO — Колесо Фортуны</title>
+    <title>Firgelo Miner — Bitcoin Clicker</title>
 
-    <script src="https://telegram.org"></script>
+    <link
+        rel="stylesheet"
+        href="css/main.css"
+    >
 
-    <script>
-        if (window.Telegram?.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-        }
-    </script>
-
-    <style>
-
-        :root {
-            --bg: #070b14;
-            --bg2: #11182a;
-
-            --text: #f7f8ff;
-            --muted: #8994ad;
-
-            --gold: #ffd15b;
-            --orange: #ff9632;
-            --green: #39e58b;
-            --red: #ff4f70;
-            --blue: #4aa9ff;
-
-            --nav: 72px;
-        }
-
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-
-        html {
-            background: var(--bg);
-            min-height: 100%;
-        }
-
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-
-            color: var(--text);
-
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Arial,
-                sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at 50% -10%,
-                    rgba(122, 91, 255, .30),
-                    transparent 38%
-                ),
-                radial-gradient(
-                    circle at 0% 55%,
-                    rgba(255, 78, 115, .11),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 100% 45%,
-                    rgba(47, 229, 138, .09),
-                    transparent 28%
-                ),
-                linear-gradient(
-                    160deg,
-                    var(--bg2),
-                    var(--bg)
-                );
-
-            overflow-x: hidden;
-
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-
-        body::before,
-        body::after {
-            content: "";
-
-            position: fixed;
-
-            width: 180px;
-            height: 180px;
-
-            border-radius: 50%;
-
-            filter: blur(75px);
-
-            pointer-events: none;
-
-            opacity: .14;
-
-            z-index: 0;
-        }
-
-
-        body::before {
-            background: #6757ff;
-            left: -100px;
-            top: 20%;
-        }
-
-
-        body::after {
-            background: #00d68f;
-            right: -100px;
-            bottom: 20%;
-        }
-
-
-        button,
-        a {
-            font: inherit;
-        }
-
-
-        .app {
-            position: relative;
-            z-index: 1;
-
-            width: min(100%, 460px);
-
-            min-height: 100vh;
-
-            margin: 0 auto;
-
-            padding:
-                max(16px, env(safe-area-inset-top))
-                14px
-                calc(var(--nav) + 28px + env(safe-area-inset-bottom));
-        }
-
-
-        /* =========================
-           TOP BAR
-        ========================= */
-
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 10px;
-
-            margin-bottom: 14px;
-        }
-
-
-        .brand {
-            display: flex;
-            align-items: center;
-
-            gap: 10px;
-
-            min-width: 0;
-        }
-
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-
-            flex: 0 0 42px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 14px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,208,90,.25),
-                    rgba(255,139,28,.06)
-                );
-
-            border:
-                1px solid
-                rgba(255,208,90,.2);
-
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,.1),
-                0 10px 28px rgba(255,170,50,.1);
-
-            font-size: 21px;
-        }
-
-
-        .brand-title {
-            font-size: 15px;
-            font-weight: 900;
-
-            letter-spacing: .4px;
-        }
-
-
-        .brand-subtitle {
-            margin-top: 2px;
-
-            color: var(--muted);
-
-            font-size: 9px;
-            font-weight: 800;
-
-            letter-spacing: .6px;
-
-            text-transform: uppercase;
-        }
-
-
-        .balances {
-            display: flex;
-            gap: 6px;
-        }
-
-
-        .balance {
-            min-width: 72px;
-
-            padding: 7px 9px;
-
-            border-radius: 14px;
-
-            background:
-                rgba(255,255,255,.045);
-
-            border:
-                1px solid
-                rgba(255,255,255,.07);
-
-            text-align: center;
-
-            box-shadow:
-                inset 0 1px 0
-                rgba(255,255,255,.03);
-        }
-
-
-        .balance-label {
-            display: block;
-
-            color: var(--muted);
-
-            font-size: 8px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-        }
-
-
-        .balance-value {
-            display: block;
-
-            margin-top: 2px;
-
-            font-size: 12px;
-            font-weight: 900;
-        }
-
-
-        .coins .balance-value {
-            color: var(--gold);
-        }
-
-
-        .jackpot .balance-value {
-            color: #ffe477;
-        }
-
-
-        /* =========================
-           MAIN CARD
-        ========================= */
-
-        .game-card {
-            position: relative;
-
-            padding: 16px;
-
-            overflow: hidden;
-
-            border-radius: 28px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(25,35,59,.89),
-                    rgba(9,15,27,.94)
-                );
-
-            border:
-                1px solid
-                rgba(255,255,255,.08);
-
-            box-shadow:
-                0 25px 80px rgba(0,0,0,.36),
-                inset 0 1px 0
-                rgba(255,255,255,.055);
-
-            transition:
-                transform .35s ease;
-        }
-
-
-        .game-card::before {
-            content: "";
-
-            position: absolute;
-
-            top: -100px;
-            left: 12%;
-            right: 12%;
-
-            height: 190px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(255,200,70,.13),
-                    transparent 68%
-                );
-
-            filter: blur(12px);
-
-            pointer-events: none;
-        }
-
-
-        .game-heading {
-            position: relative;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 8px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .game-title {
-            font-size: 19px;
-            font-weight: 900;
-
-            letter-spacing: -.4px;
-        }
-
-
-        .game-title span {
-            display: block;
-
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-
-        .bet-badge {
-            padding: 7px 10px;
-
-            border-radius: 999px;
-
-            color: var(--gold);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,200,74,.16),
-                    rgba(255,139,35,.06)
-                );
-
-            border:
-                1px solid
-                rgba(255,200,74,.18);
-
-            font-size: 9px;
-            font-weight: 900;
-
-            white-space: nowrap;
-        }
-
-
-        /* =========================
-           WHEEL
-        ========================= */
-
-        .wheel-area {
-            position: relative;
-
-            display: grid;
-            place-items: center;
-
-            padding: 14px 0 18px;
-        }
-
-
-        .wheel-aura {
-            position: absolute;
-
-            width: min(78vw, 330px);
-
-            aspect-ratio: 1;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(255,199,73,.17),
-                    rgba(255,125,44,.07) 45%,
-                    transparent 70%
-                );
-
-            filter: blur(8px);
-
-            transform: scale(1.12);
-        }
-
-
-        .wheel-shell {
-            position: relative;
-
-            width: min(76vw, 320px);
-
-            aspect-ratio: 1;
-
-            display: grid;
-
-            place-items: center;
-        }
-
-
-        .wheel-shadow {
-            position: absolute;
-
-            width: 86%;
-            height: 86%;
-
-            border-radius: 50%;
-
-            background: #000;
-
-            filter: blur(27px);
-
-            opacity: .56;
-
-            transform: translateY(12px);
-        }
-
-
-        #wheel {
-            position: relative;
-
-            z-index: 2;
-
-            width: 100%;
-            height: 100%;
-
-            display: block;
-
-            border-radius: 50%;
-
-            transform-origin: 50% 50%;
-
-            will-change: transform;
-
-            filter:
-                drop-shadow(
-                    0 12px 21px
-                    rgba(0,0,0,.4)
-                )
-                drop-shadow(
-                    0 0 15px
-                    rgba(255,192,59,.12)
-                );
-        }
-
-
-        .wheel-ring {
-            position: absolute;
-
-            inset: 0;
-
-            z-index: 3;
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            box-shadow:
-
-                inset
-                0 0 0 5px
-                rgba(255,255,255,.16),
-
-                inset
-                0 0 0 9px
-                rgba(0,0,0,.28),
-
-                0 0 0 2px
-                rgba(255,255,255,.05);
-        }
-
-
-        .wheel-center {
-            position: absolute;
-
-            z-index: 10;
-
-            left: 50%;
-            top: 50%;
-
-            transform:
-                translate(-50%, -50%);
-
-            width: 56px;
-            height: 56px;
-
-            display: grid;
-
-            place-items: center;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle at 35% 30%,
-                    #fff4ab,
-                    #ffc84a 38%,
-                    #d67b0b
-                );
-
-            border:
-                4px solid
-                #fff1b7;
-
-            color: #684100;
-
-            box-shadow:
-                0 0 0 5px
-                rgba(0,0,0,.28),
-
-                0 0 27px
-                rgba(255,187,39,.42);
-
-            font-size: 20px;
-        }
-
-
-        .pointer {
-            position: absolute;
-
-            z-index: 20;
-
-            left: 50%;
-            top: -2px;
-
-            transform:
-                translateX(-50%);
-
-            width: 0;
-            height: 0;
-
-            border-left:
-                12px solid transparent;
-
-            border-right:
-                12px solid transparent;
-
-            border-top:
-                29px solid #fff;
-
-            filter:
-                drop-shadow(
-                    0 0 7px
-                    rgba(255,255,255,.6)
-                )
-                drop-shadow(
-                    0 4px 5px
-                    rgba(0,0,0,.5)
-                );
-
-            animation:
-                pointerPulse
-                2.2s
-                ease-in-out
-                infinite;
-        }
-
-
-        .pointer::after {
-            content: "";
-
-            position: absolute;
-
-            left: -5px;
-            top: -30px;
-
-            width: 10px;
-            height: 10px;
-
-            border-radius: 50%;
-
-            background: #ff4d70;
-
-            box-shadow:
-                0 0 12px
-                rgba(255,77,112,.85);
-        }
-
-
-        @keyframes pointerPulse {
-
-            0%, 100% {
-                transform:
-                    translateX(-50%)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translateX(-50%)
-                    scale(1.05);
-            }
-
-        }
-
-
-        /* =========================
-           WHEEL TEXT
-        ========================= */
-
-        .wheel-text {
-            font-family:
-                Arial,
-                sans-serif;
-
-            font-weight: 900;
-
-            text-anchor: middle;
-
-            dominant-baseline: middle;
-
-            paint-order: stroke fill;
-
-            stroke:
-                rgba(0,0,0,.16);
-
-            stroke-width:
-                .45px;
-        }
-
-
-        /* =========================
-           LEGEND
-        ========================= */
-
-        .legend {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 7px;
-
-            margin-bottom: 13px;
-        }
-
-
-        .legend-item {
-            min-height: 42px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            padding:
-                7px 9px;
-
-            border-radius: 14px;
-
-            background:
-                rgba(255,255,255,.033);
-
-            border:
-                1px solid
-                rgba(255,255,255,.055);
-        }
-
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-
-            flex: 0 0 12px;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(255,255,255,.035),
-
-                0 0 10px
-                currentColor;
-        }
-
-
-        .legend-name {
-            display: block;
-
-            font-size: 10px;
-
-            font-weight: 900;
-        }
-
-
-        .legend-prize {
-            display: block;
-
-            margin-top: 2px;
-
-            color: var(--muted);
-
-            font-size: 8px;
-
-            font-weight: 700;
-        }
-
-
-        /* =========================
-           RESULT
-        ========================= */
-
-        #c {
-            min-height: 46px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 10px;
-
-            padding:
-                10px 12px;
-
-            border-radius: 16px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,255,255,.045),
-                    rgba(255,255,255,.018)
-                );
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-
-            color: #dfe5f7;
-
-            text-align: center;
-
-            font-size: 11px;
-
-            font-weight: 800;
-
-            transition: .22s ease;
-        }
-
-
-        #c.win {
-            color: #fff2a8;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,202,63,.17),
-                    rgba(255,153,31,.07)
-                );
-
-            border-color:
-                rgba(255,207,83,.22);
-
-            animation:
-                resultPop
-                .58s
-                cubic-bezier(
-                    .18,
-                    .89,
-                    .32,
-                    1.28
-                );
-        }
-
-
-        #c.lose {
-            color: #ffafb9;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,75,100,.13),
-                    rgba(255,75,100,.03)
-                );
-
-            border-color:
-                rgba(255,75,100,.17);
-
-            animation:
-                resultShake
-                .4s
-                ease;
-        }
-
-
-        @keyframes resultPop {
-
-            0% {
-                transform:
-                    scale(.96);
-            }
-
-            70% {
-                transform:
-                    scale(1.025);
-            }
-
-            100% {
-                transform:
-                    scale(1);
-            }
-        }
-
-
-        @keyframes resultShake {
-
-            0%, 100% {
-                transform:
-                    translateX(0);
-            }
-
-            25% {
-                transform:
-                    translateX(-4px);
-            }
-
-            75% {
-                transform:
-                    translateX(4px);
-            }
-        }
-
-
-        /* =========================
-           SPIN BUTTON
-        ========================= */
-
-        #spin-btn {
-            position: relative;
-
-            width: 100%;
-
-            min-height: 58px;
-
-            overflow: hidden;
-
-            border: none;
-
-            border-radius: 18px;
-
-            cursor: pointer;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffe36d,
-                    #ffbd3f 45%,
-                    #ff922d
-                );
-
-            color: #3c2300;
-
-            font-size: 15px;
-
-            font-weight: 950;
-
-            box-shadow:
-
-                0 10px 28px
-                rgba(255,165,43,.21),
-
-                inset
-                0 1px 0
-                rgba(255,255,255,.58);
-
-            transition:
-                transform .13s ease,
-                filter .18s ease,
-                box-shadow .18s ease;
-        }
-
-
-        #spin-btn::before {
-            content: "";
-
-            position: absolute;
-
-            width: 75px;
-            height: 180%;
-
-            top: -40%;
-            left: -130px;
-
-            transform:
-                rotate(20deg);
-
-            background:
-                rgba(255,255,255,.23);
-
-            filter:
-                blur(7px);
-
-            transition:
-                left .6s ease;
-        }
-
-
-        #spin-btn:hover::before {
-            left:
-                calc(100% + 45px);
-        }
-
-
-        #spin-btn:active {
-            transform:
-                translateY(2px)
-                scale(.985);
-        }
-
-
-        #spin-btn:disabled {
-            cursor:
-                not-allowed;
-
-            filter:
-                brightness(.7);
-        }
-
-
-        .hint {
-            margin-top: 10px;
-
-            color: var(--muted);
-
-            font-size: 8px;
-
-            font-weight: 700;
-
-            text-align: center;
-        }
-
-
-        /* =========================
-           NAVIGATION
-        ========================= */
-
-        .bottom-nav {
-            position: fixed;
-
-            z-index: 1000;
-
-            left: 50%;
-            bottom: 0;
-
-            transform:
-                translateX(-50%);
-
-            width:
-                min(100%,460px);
-
-            height:
-                var(--nav);
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4,1fr);
-
-            padding:
-                6px
-                7px
-                calc(
-                    7px +
-                    env(safe-area-inset-bottom)
-                );
-
-            background:
-                rgba(8,12,22,.86);
-
-            border-top:
-                1px solid
-                rgba(255,255,255,.07);
-
-            backdrop-filter:
-                blur(20px);
-
-            -webkit-backdrop-filter:
-                blur(20px);
-
-            box-shadow:
-                0 -15px 40px
-                rgba(0,0,0,.3);
-        }
-
-
-        .nav-item {
-            position: relative;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 3px;
-
-            border-radius: 14px;
-
-            color: #74809a;
-
-            text-decoration: none;
-        }
-
-
-        .nav-item.active {
-            color: var(--gold);
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(255,201,73,.12),
-                    rgba(255,201,73,.04)
-                );
-        }
-
-
-        .nav-item.active::before {
-            content: "";
-
-            position: absolute;
-
-            top: 0;
-            left: 50%;
-
-            width: 24px;
-            height: 3px;
-
-            transform:
-                translateX(-50%);
-
-            border-radius: 99px;
-
-            background:
-                var(--gold);
-
-            box-shadow:
-                0 0 12px
-                rgba(255,209,92,.7);
-        }
-
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-
-        .nav-text {
-            font-size: 8px;
-
-            font-weight: 900;
-        }
-
-
-        /* =========================
-           CONFETTI
-        ========================= */
-
-        #confetti {
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            pointer-events: none;
-
-            overflow: hidden;
-        }
-
-
-        .confetti-piece {
-            position: absolute;
-
-            top: -15px;
-
-            width: 7px;
-            height: 11px;
-
-            border-radius: 2px;
-
-            animation:
-                confettiFall
-                var(--duration)
-                cubic-bezier(
-                    .18,
-                    .7,
-                    .25,
-                    1
-                )
-                forwards;
-        }
-
-
-        @keyframes confettiFall {
-
-            0% {
-                opacity: 1;
-
-                transform:
-                    translate3d(
-                        0,
-                        -20px,
-                        0
-                    )
-                    rotate(0deg);
-            }
-
-
-            100% {
-                opacity: 0;
-
-                transform:
-                    translate3d(
-                        var(--x),
-                        105vh,
-                        0
-                    )
-                    rotate(
-                        var(--rotation)
-                    );
-            }
-        }
-
-
-        .win-card {
-            animation:
-                winCard
-                .75s
-                ease;
-        }
-
-
-        .lose-card {
-            animation:
-                loseCard
-                .42s
-                ease;
-        }
-
-
-        @keyframes winCard {
-
-            0%, 100% {
-                transform:
-                    scale(1);
-            }
-
-            35% {
-                transform:
-                    scale(1.012);
-            }
-
-            65% {
-                transform:
-                    scale(1.005);
-            }
-        }
-
-
-        @keyframes loseCard {
-
-            0%,100% {
-                transform:
-                    translateX(0);
-            }
-
-            20% {
-                transform:
-                    translateX(-5px);
-            }
-
-            40% {
-                transform:
-                    translateX(5px);
-            }
-
-            60% {
-                transform:
-                    translateX(-3px);
-            }
-
-            80% {
-                transform:
-                    translateX(3px);
-            }
-        }
-
-
-        @media (max-width: 380px) {
-
-            .app {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-
-            .game-card {
-                padding: 13px;
-            }
-
-
-            .balance {
-                min-width: 68px;
-            }
-
-
-            .balance-value {
-                font-size: 11px;
-            }
-
-
-            .wheel-shell {
-                width: min(78vw,300px);
-            }
-
-
-            .wheel-center {
-                width: 50px;
-                height: 50px;
-            }
-
-        }
-
-    </style>
 </head>
 
 
 <body>
 
-
 <div class="app">
 
-
-    <header class="topbar">
-
+    <header class="header">
 
         <div class="brand">
 
             <div class="brand-icon">
-                🎰
+                ₿
             </div>
-
 
             <div>
 
-                <div class="brand-title">
-                    MEGA CASINO
+                <div class="brand-name">
+                    FIRGELO MINER
                 </div>
-
 
                 <div class="brand-subtitle">
-                    Wheel of Fortune
+                    BITCOIN CLICKER
                 </div>
 
             </div>
@@ -1320,1077 +52,215 @@
         </div>
 
 
-        <div class="balances">
+        <div class="status">
 
+            <span class="status-dot"></span>
 
-            <div class="balance coins">
-
-                <span class="balance-label">
-                    Монеты
-                </span>
-
-
-                <span
-                    class="balance-value"
-                    id="coins-counter"
-                >
-                    0 💰
-                </span>
-
-            </div>
-
-
-            <div class="balance jackpot">
-
-                <span class="balance-label">
-                    Джекпоты
-                </span>
-
-
-                <span
-                    class="balance-value"
-                    id="jackpot-counter"
-                >
-                    0 👑
-                </span>
-
-            </div>
-
+            AUTOSAVE ON
 
         </div>
-
 
     </header>
 
 
-    <main
-        class="game-card"
-        id="game-card"
-    >
+    <main class="main">
 
 
-        <div class="game-heading">
+        <!-- =========================
+             CLICKER
+        ========================== -->
+
+        <section class="panel clicker">
+
+            <div class="balance-label">
+                YOUR BITCOIN
+            </div>
 
 
-            <div class="game-title">
+            <div class="balance">
 
-                🎡 Колесо Фортуны
+                <span id="balance">
+                    0
+                </span>
 
-
-                <span>
-                    Испытай удачу и сорви джекпот
+                <span class="unit">
+                    BTC
                 </span>
 
             </div>
 
 
-            <div class="bet-badge">
-                СТАВКА 20 💰
+            <div class="coin-area">
+
+                <div class="coin-glow"></div>
+
+                <button
+                    id="coin"
+                    class="coin"
+                    aria-label="Mine Bitcoin"
+                ></button>
+
             </div>
 
 
-        </div>
+            <div class="click-hint">
+                TAP / CLICK TO MINE
+            </div>
 
 
-        <div class="wheel-area">
+            <div class="stats">
 
 
-            <div class="wheel-aura"></div>
+                <div class="stat">
 
+                    <div class="stat-label">
+                        PER CLICK
+                    </div>
 
-            <div class="wheel-shell">
+                    <div
+                        id="dpc"
+                        class="stat-value gold"
+                    >
+                        +1
+                    </div>
 
+                </div>
 
-                <div class="wheel-shadow"></div>
 
+                <div class="stat">
 
-                <div class="pointer"></div>
+                    <div class="stat-label">
+                        PER SECOND
+                    </div>
 
+                    <div
+                        id="dps"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
 
-                <svg
-                    id="wheel"
-                    viewBox="0 0 100 100"
-                >
+                </div>
 
 
-                    <defs>
+                <div class="stat">
 
+                    <div class="stat-label">
+                        LEVEL
+                    </div>
 
-                        <linearGradient
-                            id="redGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
+                    <div
+                        id="level"
+                        class="stat-value"
+                    >
+                        1
+                    </div>
 
-                            <stop
-                                offset="0%"
-                                stop-color="#ff697a"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#e83254"
-                            />
-
-                        </linearGradient>
-
-
-                        <linearGradient
-                            id="blackGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-
-                            <stop
-                                offset="0%"
-                                stop-color="#2d3649"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#080c13"
-                            />
-
-                        </linearGradient>
-
-
-                        <linearGradient
-                            id="orangeGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-
-                            <stop
-                                offset="0%"
-                                stop-color="#ffd35d"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#f17620"
-                            />
-
-                        </linearGradient>
-
-
-                        <linearGradient
-                            id="whiteGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-
-                            <stop
-                                offset="0%"
-                                stop-color="#ffffff"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#d9dfeb"
-                            />
-
-                        </linearGradient>
-
-
-                        <linearGradient
-                            id="blueGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-
-                            <stop
-                                offset="0%"
-                                stop-color="#65c3ff"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#287fe4"
-                            />
-
-                        </linearGradient>
-
-
-                        <linearGradient
-                            id="greenGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-
-                            <stop
-                                offset="0%"
-                                stop-color="#5af2a6"
-                            />
-
-                            <stop
-                                offset="100%"
-                                stop-color="#1aa96c"
-                            />
-
-                        </linearGradient>
-
-
-                    </defs>
-
-
-                    <!-- RED -->
-
-                    <path
-                        d="M50,50 L50,0 A50,50 0 0,1 93.3,25 Z"
-                        fill="url(#redGradient)"
-                    />
-
-
-                    <!-- BLACK -->
-
-                    <path
-                        d="M50,50 L93.3,25 A50,50 0 0,1 93.3,75 Z"
-                        fill="url(#blackGradient)"
-                    />
-
-
-                    <!-- ORANGE -->
-
-                    <path
-                        d="M50,50 L93.3,75 A50,50 0 0,1 50,100 Z"
-                        fill="url(#orangeGradient)"
-                    />
-
-
-                    <!-- WHITE -->
-
-                    <path
-                        d="M50,50 L50,100 A50,50 0 0,1 6.7,75 Z"
-                        fill="url(#whiteGradient)"
-                    />
-
-
-                    <!-- BLUE -->
-
-                    <path
-                        d="M50,50 L6.7,75 A50,50 0 0,1 6.7,25 Z"
-                        fill="url(#blueGradient)"
-                    />
-
-
-                    <!-- GREEN -->
-
-                    <path
-                        d="M50,50 L6.7,25 A50,50 0 0,1 50,0 Z"
-                        fill="url(#greenGradient)"
-                    />
-
-
-                    <!-- TEXT -->
-
-                    <g class="wheel-text">
-
-
-                        <!-- RED -->
-
-                        <text
-                            x="66.5"
-                            y="21.2"
-                            font-size="5.2"
-                            fill="#ffffff"
-                        >
-                            +10
-                        </text>
-
-
-                        <!-- BLACK -->
-
-                        <text
-                            x="82.8"
-                            y="50"
-                            font-size="5.0"
-                            fill="#ffffff"
-                        >
-                            БАНК
-                        </text>
-
-
-                        <!-- ORANGE -->
-
-                        <text
-                            x="66.5"
-                            y="78.8"
-                            font-size="5.2"
-                            fill="#ffffff"
-                        >
-                            +50
-                        </text>
-
-
-                        <!-- WHITE -->
-
-                        <text
-                            x="33.5"
-                            y="78.8"
-                            font-size="5.0"
-                            fill="#596272"
-                        >
-                            ПУСТО
-                        </text>
-
-
-                        <!-- BLUE -->
-
-                        <text
-                            x="17.2"
-                            y="50"
-                            font-size="5.2"
-                            fill="#ffffff"
-                        >
-                            +30
-                        </text>
-
-
-                        <!-- GREEN -->
-
-                        <text
-                            x="33.5"
-                            y="21.2"
-                            font-size="5.2"
-                            fill="#ffffff"
-                        >
-                            x2
-                        </text>
-
-
-                    </g>
-
-
-                    <!-- RINGS -->
-
-                    <circle
-                        cx="50"
-                        cy="50"
-                        r="46"
-                        fill="none"
-                        stroke="rgba(255,255,255,.15)"
-                        stroke-width="1"
-                    />
-
-
-                    <circle
-                        cx="50"
-                        cy="50"
-                        r="39"
-                        fill="none"
-                        stroke="rgba(0,0,0,.12)"
-                        stroke-width=".7"
-                    />
-
-
-                </svg>
-
-
-                <div class="wheel-ring"></div>
-
-
-                <div class="wheel-center">
-                    ⭐
                 </div>
 
 
             </div>
 
-        </div>
+
+            <div class="level-box">
+
+                <div class="level-head">
+
+                    <span id="levelText">
+                        Level 1
+                    </span>
+
+                    <span id="xpText">
+                        0 / 100
+                    </span>
+
+                </div>
 
 
-        <div class="legend">
+                <div class="progress">
+
+                    <div
+                        id="xpBar"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
 
 
-            <div class="legend-item">
+        <!-- =========================
+             UPGRADES
+        ========================== -->
+
+        <section class="panel upgrades">
+
+
+            <div class="section-head">
+
+                <div class="section-title">
+                    Mining Upgrades
+                </div>
+
+                <div class="section-subtitle">
+                    Increase your Bitcoin production
+                </div>
+
+            </div>
+
+
+            <div
+                id="upgradeList"
+                class="upgrade-list"
+            ></div>
+
+
+            <!-- ACHIEVEMENTS -->
+
+            <div class="achievements">
+
+                <div class="section-head">
+
+                    <div class="section-title">
+                        Achievements
+                    </div>
+
+                    <div class="section-subtitle">
+                        Permanent click bonuses
+                    </div>
+
+                </div>
+
 
                 <div
-                    class="legend-dot"
-                    style="
-                        background:#ff4f70;
-                        color:#ff4f70;
-                    "
+                    id="achievementList"
+                    class="achievement-list"
                 ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Красный
-                    </span>
-
-                    <span class="legend-prize">
-                        +10 💰
-                    </span>
-
-                </div>
 
             </div>
 
 
-            <div class="legend-item">
-
-                <div
-                    class="legend-dot"
-                    style="
-                        background:#141a26;
-                        color:#677286;
-                    "
-                ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Чёрный
-                    </span>
-
-                    <span class="legend-prize">
-                        БАНКРОТ 💀
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <div
-                    class="legend-dot"
-                    style="
-                        background:#ff9f2f;
-                        color:#ff9f2f;
-                    "
-                ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Оранжевый
-                    </span>
-
-                    <span class="legend-prize">
-                        +50 💎
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <div
-                    class="legend-dot"
-                    style="
-                        background:#f6f7fb;
-                        color:#f6f7fb;
-                    "
-                ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Белый
-                    </span>
-
-                    <span class="legend-prize">
-                        Пусто 😢
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <div
-                    class="legend-dot"
-                    style="
-                        background:#4ca9ff;
-                        color:#4ca9ff;
-                    "
-                ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Синий
-                    </span>
-
-                    <span class="legend-prize">
-                        +30 💰
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <div
-                    class="legend-dot"
-                    style="
-                        background:#33e58a;
-                        color:#33e58a;
-                    "
-                ></div>
-
-
-                <div>
-
-                    <span class="legend-name">
-                        Зелёный
-                    </span>
-
-                    <span class="legend-prize">
-                        x2 🔥
-                    </span>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <div id="c">
-            Нажми на кнопку и крути колесо 🎯
-        </div>
-
-
-        <button id="spin-btn">
-            🎡 Крутить за 20 💰
-        </button>
-
-
-        <div class="hint">
-            Всё внутри игры виртуальное. Прогресс сохраняется автоматически.
-        </div>
+        </section>
 
 
     </main>
 
-
 </div>
 
 
-<div id="confetti"></div>
-
-
-<nav class="bottom-nav">
-
-
-    <a
-        href="game.html?v=2"
-        class="nav-item active"
-    >
-
-        <span class="nav-icon">
-            🎡
-        </span>
-
-        <span class="nav-text">
-            Колесо
-        </span>
-
-    </a>
-
-
-    <a
-        href="dice.html?v=2"
-        class="nav-item"
-    >
-
-        <span class="nav-icon">
-            🎲
-        </span>
-
-        <span class="nav-text">
-            Кубики
-        </span>
-
-    </a>
-
-
-    <a
-        href="clicker.html?v=2"
-        class="nav-item"
-    >
-
-        <span class="nav-icon">
-            ⚡
-        </span>
-
-        <span class="nav-text">
-            Биткоин
-        </span>
-
-    </a>
-
-
-    <a
-        href="profile.html?v=2"
-        class="nav-item"
-    >
-
-        <span class="nav-icon">
-            👤
-        </span>
-
-        <span class="nav-text">
-            Профиль
-        </span>
-
-    </a>
-
-
-</nav>
-
-
-<script>
-
-    const BET = 20;
-
-
-    let coins =
-        parseInt(
-            localStorage.getItem(
-                "casino_coins"
-            ),
-            10
-        );
-
-
-    let jackpots =
-        parseInt(
-            localStorage.getItem(
-                "casino_jackpots"
-            ),
-            10
-        );
-
-
-    if (!Number.isFinite(coins)) {
-        coins = 100;
-    }
-
-
-    if (!Number.isFinite(jackpots)) {
-        jackpots = 0;
-    }
-
-
-    const coinsCounter =
-        document.getElementById(
-            "coins-counter"
-        );
-
-
-    const jackpotCounter =
-        document.getElementById(
-            "jackpot-counter"
-        );
-
-
-    const resultText =
-        document.getElementById(
-            "c"
-        );
-
-
-    const wheel =
-        document.getElementById(
-            "wheel"
-        );
-
-
-    const spinBtn =
-        document.getElementById(
-            "spin-btn"
-        );
-
-
-    const gameCard =
-        document.getElementById(
-            "game-card"
-        );
-
-
-    const confetti =
-        document.getElementById(
-            "confetti"
-        );
-
-
-    let isSpinning = false;
-
-    let currentRotation = 0;
-
-
-    function updateUI() {
-
-        coinsCounter.textContent =
-            `${coins.toLocaleString("ru-RU")} 💰`;
-
-
-        jackpotCounter.textContent =
-            `${jackpots.toLocaleString("ru-RU")} 👑`;
-
-
-        spinBtn.disabled =
-            isSpinning ||
-            coins < BET;
-
-    }
-
-
-    function saveGame() {
-
-        localStorage.setItem(
-            "casino_coins",
-            String(coins)
-        );
-
-
-        localStorage.setItem(
-            "casino_jackpots",
-            String(jackpots)
-        );
-
-    }
-
-
-    function showResult(
-        text,
-        type = ""
-    ) {
-
-        resultText.className = "";
-
-        if (type) {
-            resultText.classList.add(type);
-        }
-
-        resultText.textContent = text;
-
-    }
-
-
-    function showEffect(
-        type
-    ) {
-
-        gameCard.classList.remove(
-            "win-card",
-            "lose-card"
-        );
-
-
-        void gameCard.offsetWidth;
-
-
-        gameCard.classList.add(
-            type === "win"
-                ? "win-card"
-                : "lose-card"
-        );
-
-    }
-
-
-    function showConfetti() {
-
-        confetti.innerHTML = "";
-
-
-        const colors = [
-            "#ffd34e",
-            "#ff6c8d",
-            "#4fc3ff",
-            "#55e996",
-            "#a184ff",
-            "#ffffff"
-        ];
-
-
-        for (
-            let i = 0;
-            i < 50;
-            i++
-        ) {
-
-            const piece =
-                document.createElement(
-                    "div"
-                );
-
-
-            piece.className =
-                "confetti-piece";
-
-
-            piece.style.background =
-                colors[
-                    Math.floor(
-                        Math.random() *
-                        colors.length
-                    )
-                ];
-
-
-            piece.style.left =
-                `${Math.random() * 100}%`;
-
-
-            piece.style.setProperty(
-                "--x",
-                `${Math.random() * 280 - 140}px`
-            );
-
-
-            piece.style.setProperty(
-                "--rotation",
-                `${Math.random() * 900 - 450}deg`
-            );
-
-
-            piece.style.setProperty(
-                "--duration",
-                `${.9 + Math.random() * 1.1}s`
-            );
-
-
-            confetti.appendChild(
-                piece
-            );
-
-        }
-
-
-        setTimeout(
-            () => {
-                confetti.innerHTML = "";
-            },
-            2200
-        );
-
-    }
-
-
-    updateUI();
-
-
-    spinBtn.addEventListener(
-        "click",
-        () => {
-
-            if (isSpinning) {
-                return;
-            }
-
-
-            if (coins < BET) {
-
-                showResult(
-                    "❌ Недостаточно монет!",
-                    "lose"
-                );
-
-                showEffect("lose");
-
-                return;
-
-            }
-
-
-            coins -= BET;
-
-            isSpinning = true;
-
-            updateUI();
-
-
-            showResult(
-                "🎡 Колесо набирает скорость..."
-            );
-
-
-            const randomDegrees =
-                Math.floor(
-                    Math.random() * 360
-                );
-
-
-            const rounds =
-                6 +
-                Math.floor(
-                    Math.random() * 2
-                );
-
-
-            currentRotation +=
-                rounds * 360 +
-                randomDegrees;
-
-
-            const duration =
-                4300 +
-                Math.floor(
-                    Math.random() * 600
-                );
-
-
-            wheel.style.transition =
-                `transform ${duration}ms cubic-bezier(.12,.72,.18,1)`;
-
-
-            wheel.style.transform =
-                `rotate(${currentRotation}deg)`;
-
-
-            setTimeout(
-                () => {
-
-                    isSpinning = false;
-
-
-                    const actualDegrees =
-                        (
-                            360 -
-                            (currentRotation % 360) +
-                            360
-                        ) % 360;
-
-
-                    const sector =
-                        Math.floor(
-                            actualDegrees / 60
-                        );
-
-
-                    if (sector === 0) {
-
-                        coins += 10;
-
-                        showResult(
-                            "🔴 Красный! +10 💰",
-                            "win"
-                        );
-
-                        showEffect("win");
-
-                        showConfetti();
-
-                    }
-
-
-                    else if (sector === 1) {
-
-                        coins = 0;
-
-                        showResult(
-                            "💀 Чёрный! БАНКРОТ...",
-                            "lose"
-                        );
-
-                        showEffect("lose");
-
-                    }
-
-
-                    else if (sector === 2) {
-
-                        coins += 50;
-
-                        jackpots += 1;
-
-                        showResult(
-                            "👑 ДЖЕКПОТ! +50 💎",
-                            "win"
-                        );
-
-                        showEffect("win");
-
-                        showConfetti();
-
-                    }
-
-
-                    else if (sector === 3) {
-
-                        showResult(
-                            "⚪ Белый! Пусто 😢"
-                        );
-
-                    }
-
-
-                    else if (sector === 4) {
-
-                        coins += 30;
-
-                        showResult(
-                            "🔵 Синий! +30 💰",
-                            "win"
-                        );
-
-                        showEffect("win");
-
-                        showConfetti();
-
-                    }
-
-
-                    else {
-
-                        coins *= 2;
-
-                        showResult(
-                            `🔥 Зелёный! Баланс x2 — ${coins.toLocaleString("ru-RU")} 💰`,
-                            "win"
-                        );
-
-                        showEffect("win");
-
-                        showConfetti();
-
-                    }
-
-
-                    saveGame();
-
-                    updateUI();
-
-                },
-
-                duration + 70
-            );
-
-        }
-    );
-
-</script>
-
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script
+    src="js/script.js"
+    defer
+></script>
 
 </body>
+
 </html>
