@@ -1,3 +1,4 @@
+```js
 "use strict";
 
 /*
@@ -8,7 +9,6 @@ Main game engine
 */
 
 const SAVE_KEY = "firgelo_bitcoin_clicker_v2";
-
 const CLICK_COOLDOWN = 55;
 
 
@@ -70,6 +70,78 @@ const UPGRADES = [
         description: "+500 BTC / sec",
         baseCost: 50000,
         dps: 500
+    },
+
+    {
+        id: "industrial",
+        icon: "🏗️",
+        name: "Industrial Mining Complex",
+        description: "+2,500 BTC / sec",
+        baseCost: 250000,
+        dps: 2500
+    },
+
+    {
+        id: "plasma",
+        icon: "🔥",
+        name: "Plasma Miner",
+        description: "+6,000 BTC / sec",
+        baseCost: 500000,
+        dps: 6000
+    },
+
+    {
+        id: "fusion",
+        icon: "☢️",
+        name: "Fusion Mining Core",
+        description: "+15,000 BTC / sec",
+        baseCost: 1000000,
+        dps: 15000
+    },
+
+    {
+        id: "orbital",
+        icon: "🛰️",
+        name: "Orbital Mining Station",
+        description: "+50,000 BTC / sec",
+        baseCost: 3000000,
+        dps: 50000
+    },
+
+    {
+        id: "megastructure",
+        icon: "🌐",
+        name: "Mega Mining Network",
+        description: "+120,000 BTC / sec",
+        baseCost: 5000000,
+        dps: 120000
+    },
+
+    {
+        id: "dyson",
+        icon: "☀️",
+        name: "Dyson Mining Array",
+        description: "+300,000 BTC / sec",
+        baseCost: 10000000,
+        dps: 300000
+    },
+
+    {
+        id: "quantumcore",
+        icon: "💠",
+        name: "Quantum Core",
+        description: "+750,000 BTC / sec",
+        baseCost: 25000000,
+        dps: 750000
+    },
+
+    {
+        id: "galactic",
+        icon: "🌌",
+        name: "Galactic Mining Empire",
+        description: "+2,000,000 BTC / sec",
+        baseCost: 50000000,
+        dps: 2000000
     }
 
 ];
@@ -387,11 +459,6 @@ function getUpgradeCost(upgrade) {
             upgrade.id
         ] || 0;
 
-    /*
-       Each purchase increases cost
-       by exactly 15%.
-    */
-
     return Math.floor(
         upgrade.baseCost *
         Math.pow(1.15, level)
@@ -455,6 +522,7 @@ function checkAchievements() {
             !state.achievements[
                 achievement.id
             ] &&
+
             state.totalMined >=
             achievement.requirement
         ) {
@@ -478,18 +546,13 @@ function checkAchievements() {
    MINE
 ====================================================== */
 
-let lastClick =
-    0;
+let lastClick = 0;
 
 
 function mine(event) {
 
     const now =
         performance.now();
-
-    /*
-       Basic anti-spam protection.
-    */
 
     if (
         now - lastClick <
@@ -502,10 +565,8 @@ function mine(event) {
 
     lastClick = now;
 
-
     const amount =
         getDPC();
-
 
     state.balance +=
         amount;
@@ -515,13 +576,9 @@ function mine(event) {
 
     state.totalClicks++;
 
-
     addXP(1);
 
     checkAchievements();
-
-
-    /* Coin animation */
 
     coinEl.classList.remove(
         "pressed"
@@ -540,7 +597,6 @@ function mine(event) {
         120
     );
 
-
     const x =
         event.clientX ||
         window.innerWidth / 2;
@@ -549,19 +605,16 @@ function mine(event) {
         event.clientY ||
         window.innerHeight / 2;
 
-
     createFloatingNumber(
         x,
         y,
         `+${formatNumber(amount)}`
     );
 
-
     createParticles(
         x,
         y
     );
-
 
     updateUI();
 
@@ -596,7 +649,6 @@ function createFloatingNumber(
     document.body.appendChild(
         element
     );
-
 
     setTimeout(
         () => element.remove(),
@@ -635,7 +687,6 @@ function createParticles(
         particle.style.top =
             `${y}px`;
 
-
         const angle =
             Math.random() *
             Math.PI *
@@ -645,7 +696,6 @@ function createParticles(
             45 +
             Math.random() *
             95;
-
 
         particle.style.setProperty(
             "--x",
@@ -657,11 +707,9 @@ function createParticles(
             `${Math.sin(angle) * distance}px`
         );
 
-
         document.body.appendChild(
             particle
         );
-
 
         setTimeout(
             () => particle.remove(),
@@ -681,7 +729,6 @@ function renderUpgrades() {
 
     upgradeListEl.innerHTML = "";
 
-
     for (
         const upgrade
         of UPGRADES
@@ -692,27 +739,22 @@ function renderUpgrades() {
                 upgrade.id
             ] || 0;
 
-
         const cost =
             getUpgradeCost(
                 upgrade
             );
 
-
         const canBuy =
             state.balance >=
             cost;
-
 
         const element =
             document.createElement(
                 "div"
             );
 
-
         element.className =
             "upgrade";
-
 
         element.innerHTML = `
 
@@ -751,7 +793,6 @@ function renderUpgrades() {
 
         `;
 
-
         upgradeListEl.appendChild(
             element
         );
@@ -773,19 +814,16 @@ function buyUpgrade(id) {
                 item.id === id
         );
 
-
     if (!upgrade) {
 
         return;
 
     }
 
-
     const cost =
         getUpgradeCost(
             upgrade
         );
-
 
     if (
         state.balance <
@@ -800,19 +838,15 @@ function buyUpgrade(id) {
 
     }
 
-
     state.balance -=
         cost;
-
 
     state.upgrades[id] =
         (state.upgrades[id] || 0) + 1;
 
-
     showToast(
         `${upgrade.icon} ${upgrade.name} upgraded!`
     );
-
 
     saveGame();
 
@@ -830,7 +864,6 @@ function renderAchievements() {
     achievementListEl.innerHTML =
         "";
 
-
     for (
         const achievement
         of ACHIEVEMENTS
@@ -841,18 +874,15 @@ function renderAchievements() {
                 achievement.id
             ];
 
-
         const element =
             document.createElement(
                 "div"
             );
 
-
         element.className =
             unlocked
                 ? "achievement unlocked"
                 : "achievement";
-
 
         element.innerHTML = `
 
@@ -869,7 +899,6 @@ function renderAchievements() {
             </div>
 
         `;
-
 
         achievementListEl.appendChild(
             element
@@ -891,30 +920,24 @@ function updateUI() {
             state.balance
         );
 
-
     dpcEl.textContent =
         `+${formatNumber(
             getDPC()
         )}`;
-
 
     dpsEl.textContent =
         formatNumber(
             getDPS()
         );
 
-
     levelEl.textContent =
         state.level;
-
 
     levelTextEl.textContent =
         `Level ${state.level}`;
 
-
     const required =
         getXPRequired();
-
 
     xpTextEl.textContent =
         `${formatNumber(
@@ -923,7 +946,6 @@ function updateUI() {
             required
         )}`;
 
-
     xpBarEl.style.width =
         `${Math.min(
             100,
@@ -931,7 +953,6 @@ function updateUI() {
             required *
             100
         )}%`;
-
 
     renderUpgrades();
 
@@ -956,15 +977,12 @@ function gameLoop(now) {
             1000
         ) / 1000;
 
-
     lastTick =
         now;
-
 
     const income =
         getDPS() *
         delta;
-
 
     if (
         income > 0
@@ -981,7 +999,6 @@ function gameLoop(now) {
         updateUI();
 
     }
-
 
     requestAnimationFrame(
         gameLoop
@@ -1010,7 +1027,6 @@ function calculateOfflineIncome() {
             )
         );
 
-
     if (
         elapsed < 10000
     ) {
@@ -1019,11 +1035,9 @@ function calculateOfflineIncome() {
 
     }
 
-
     const earned =
         getDPS() *
         (elapsed / 1000);
-
 
     if (
         earned <= 0
@@ -1033,13 +1047,11 @@ function calculateOfflineIncome() {
 
     }
 
-
     state.balance +=
         earned;
 
     state.totalMined +=
         earned;
-
 
     setTimeout(
         () => {
@@ -1065,7 +1077,6 @@ function saveGame() {
 
     state.lastSave =
         Date.now();
-
 
     try {
 
@@ -1102,11 +1113,9 @@ function showToast(message) {
         "show"
     );
 
-
     clearTimeout(
         toastTimer
     );
-
 
     toastTimer =
         setTimeout(
@@ -1142,13 +1151,11 @@ upgradeListEl.addEventListener(
                 "[data-upgrade]"
             );
 
-
         if (!button) {
 
             return;
 
         }
-
 
         buyUpgrade(
             button.dataset.upgrade
@@ -1202,3 +1209,4 @@ updateUI();
 requestAnimationFrame(
     gameLoop
 );
+```
